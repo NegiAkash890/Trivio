@@ -2,6 +2,9 @@ var express                     =   require("express"),
     app                         =   express(),
     bodyParser                  =   require('body-parser'),
     dashboardRoutes             =   require("./routes/dashboard"),
+    path                        =   require("path"),
+    fs                          =   require("fs"),
+    multer                      =   require("multer"),
     mongoose                    =   require("mongoose");
 
 const mongoUrl = process.env.DATABASEURL || "mongodb://wecbr:wecbr123@ds219459.mlab.com:19459/wecbr";

@@ -1,13 +1,25 @@
 var express                     =   require("express"),
     router                      =   express.Router(),
-    Quiz                        =   require("../models/quiz");
+    Quiz                        =   require("../models/quiz"),
+    multer                      =   require("multer");
+    // upload                      =   multer({dest: __dirname + '/uploads/images'});
+
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, '/uploads/images')
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname + '-' + Date.now())
+    }
+    });
+var upload = multer({ storage: storage });
 
 router.get('/', function(req, res) {
     res.render('index');
 });
 
     //  Home page route 
-router.post('/quiz/new', function(req, res){
+router.post('/quiz/new', upload.any(), function(req, res){
     Quiz.register(req.body, function(err, quiz){
         if(err) {
             res.json({'error': err});
