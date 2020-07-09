@@ -20,6 +20,7 @@ router.get('/', function(req, res) {
 
     //  Home page route 
 router.post('/quiz/new', upload.any(), function(req, res){
+    
     Quiz.register(req.body, function(err, quiz){
         if(err) {
             res.json({'error': err});
@@ -27,6 +28,17 @@ router.post('/quiz/new', upload.any(), function(req, res){
             res.redirect('/');
         } else {
             res.redirect('/');
+        }
+    });
+});
+
+
+router.get('/quiz/:id', isLoggedIn ,function(req, res) {
+    Quiz.findOne({uniqueId: req.params.id}, function(err, quiz) {
+        if(err || !quiz) {
+            res.redirect('/');
+        } else if(quiz) {
+            res.render('filename', {quiz: quiz});
         }
     });
 });
