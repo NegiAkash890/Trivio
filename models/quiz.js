@@ -4,7 +4,7 @@ var quizSchema                  =   new mongoose.Schema({
     uniqueID    : String,
     topic       : String,
     description : String,
-    date        : {type: Date, default: Date.now},
+    date        : {type: Date},
     duration    : Number,
     image       : String,
     questions   : [{
@@ -19,4 +19,4 @@ var quizSchema                  =   new mongoose.Schema({
     }],
 });
 
-module.exports  =   mongoose.model('User', userSchema);
+module.exports  =   mongoose.model('Quiz', quizSchema);

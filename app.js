@@ -1,8 +1,10 @@
 var express                     =   require("express"),
+    app                         =   express(),
+    bodyParser                  =   require('body-parser'),
     dashboardRoutes             =   require("./routes/dashboard"),
     mongoose                    =   require("mongoose");
 
-const mongoUrl = process.env.DATABASEURL || "";
+const mongoUrl = process.env.DATABASEURL || "mongodb://wecbr:wecbr123@ds219459.mlab.com:19459/wecbr";
 mongoose.set('useUnifiedTopology', true);
 const connection = mongoose.connect(mongoUrl, {useNewUrlParser: true}).catch(err=> console.log("Error connecting to DB: "+err));
 
@@ -14,8 +16,8 @@ app.use(bodyParser.text());
 app.use(bodyParser.raw());
 
 
-app.use('/dashboard', dashboardRoutes);
+app.use('/', dashboardRoutes);
 
-http.listen(process.env.PORT || 8080, process.env.IP, function(req, res){
+app.listen(process.env.PORT || 8080, process.env.IP, function(req, res){
     console.log("Server connected ..."); 
 });

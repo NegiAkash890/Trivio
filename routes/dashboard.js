@@ -2,18 +2,19 @@ var express                     =   require("express"),
     router                      =   express.Router(),
     Quiz                        =   require("../models/quiz");
 
-router.get('/', isLoggedIn, function(req, res) {
+router.get('/', function(req, res) {
     res.render('index');
 });
 
     //  Home page route 
-router.post('/new', function(req, res){
-    
-    Quiz.register(, function(err, quiz){
+router.post('/quiz/new', function(req, res){
+    Quiz.register(req.body, function(err, quiz){
         if(err) {
             res.json({'error': err});
+        } else if(quiz) {
+            res.redirect('/');
         } else {
-
+            res.redirect('/');
         }
     });
 });
