@@ -16,7 +16,7 @@ a:hover{
  height:300px;
  background-repeat: no-repeat;
  background-position: center !important;
- background-color: #fff;
+ background-color:white;
  background-clip: padding-box;
  background-image: url('./images/gallery.png');
  border: 1px solid #ced4da
