@@ -47,7 +47,7 @@
 
             </div> -->
             <div class="offset-0 offset-md-1 col-md-4">
-                <form class="needs-validation" id='form' novalidate>
+                <form class="needs-validation" id='form' action='/quiz/new' novalidate>
                     <div class="form-group">
                         <label for="imgupload">Image</label>
                         <input type="file" class="form-control form-control-lg" id="imgupload"><br>
@@ -61,7 +61,7 @@
                 </form>
             </div>
             <div class="col-md-6">
-                <form class="needs-validation" novalidate>
+                <form class="needs-validation" action='/quiz/new' novalidate>
                     <div class="form-group">
                         <label for="quiz_topic">Quiz topic</label>
                         <input type="text" class="form-control form-control-lg" id="quiz_topic" required>
@@ -108,13 +108,13 @@
                     <div class="row">
                         <div class="btn-group text-center">
                             <div class="col-4">
-                                <button type="button" class="btn btn-danger">CANCEL</button>
+                                <button type="reset" id="reset" class="btn btn-danger">CANCEL</button>
                             </div>
                             <div class="col-4">
                                 <button type="submit" id="save" class="btn btn-success">SAVE</button>
                             </div>
                             <div class="col-4">
-                                <button type="submit" type='submit' id='next' class="btn btn-primary">NEXT</button>
+                                <button type="submit"  id='next' class="btn btn-primary">NEXT</button>
                             </div>
 
                         </div>
