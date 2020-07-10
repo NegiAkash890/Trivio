@@ -10,7 +10,7 @@ var quizSchema                  =   new mongoose.Schema({
     questions   : [{
         question    : String,
         image       : String,
-        options     : [{option : String}],
+        options     : [String],
         answer      : Number
     }],
     author    : [{
