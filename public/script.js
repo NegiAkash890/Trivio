@@ -15,23 +15,25 @@
         });
     }, false);
 })();
-// var input = document.getElementById('imgupload')
-// var button = document.getElementById('mockbutton')
-// button.addEventListener('click', () => {
-//     input.click()
-//     if (input.value) {
-//         button.style.backgroundImage = "url('./images/logo.png')"
-//         button.innerHTML = 'IMAGE UPLOADED'
-//     }
-//     else {
-//         button.innerHTML = 'CLICK TO UPLOAD IMAGE'
-//     }
-// })
+var form = document.getElementsByTagName('form')
+var input = document.getElementById('imgupload')
+var button = document.getElementById('mockbutton')
+var reset = document.getElementById('reset')
 
+button.addEventListener('click', () => {
+    input.click()
+})
+input.addEventListener("change", () => {
+    if (input.value) {
+        button.style.background = 'white'
+        button.innerHTML = 'Image Uploaded'
+    }
+})
+reset.addEventListener('click', () => {
+    for (var i = 0; i < form.length; i++) {
+        form[i].reset()
+        button.style.background = "white url('./images/gallery.png') no-repeat center center"
+        button.innerHTML = 'Click to Upload Image'
+    }
 
-
-
-
-
-
-
+})
