@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DASHBOARD</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="./style.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-dark navbar-expand-lg  bg-light fixed-top" id="navbar">
+        <a class="navbar-brand" href="#">
+            <img src="./images/logo.jpeg" width="50" height="50" alt="" loading="lazy">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon" id="toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class=" ml-md-4  navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#"><i class="mt-2 d-md-block ml-md-2 mr-2 fa fa-2x fa-home"></i>Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="mt-2 d-md-block ml-md-1 mr-2  fa fa-2x fa-motorcycle"></i>My
+                        Quiz </a>
+                </li>
+                <li class="nav-item ml-1">
+                    <a class="nav-link" href="#"><i
+                            class="mt-2 d-md-block ml-md-1 mr-2 fa fa-2x fa-sticky-note"></i>FAQ</a>
+                </li>
+                <li class="nav-item ml-1">
+                    <a class="nav-link" href="#"><i
+                            class="mt-2 d-md-block ml-md-2  mr-2 fa fa-2x fa-user"></i>Profile</a>
+                </li>
+                <li class="nav-item ml-1">
+                    <a class="nav-link" href="#"><i
+                            class=" mt-2 d-md-block  ml-md-3 mr-2 fa fa-2x fa-user-secret"></i>About Us</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container-fluid" id='container'>
+        <div class="row">
+            <div class="col-md-3 text-center d-sm-none d-md-flex" id='ad1'>
+                Advertisement Here
+            </div>
+            <div class="col-md-6">
+                <div class="row  mt-md-4">
+                    <div class="col-12 add_question">
+                        <button class="btn btn-primary" id="add"> Click to Add Question</button>
+                    </div>
+                    <!--Intially the Cards will be hidden because when we create the Quiz(Quiz Creation Page) ,
+                    the database is empty because there are not questions ye. In the Quiz Question page we have
+                    next button that will redirect us at this page.After the clicking the Add Question button Qus
+                    Card will be displayed.After details when we click the save button the page will reload and the
+                    Questions will be fetched from the datebase and rendered using EJS.Below is the card that will
+                    be used.
+                    -->
+                    <!-- Render Question Here using EJS-->
+                    <div class="col-12 mt-4">
+                        <div class="alert alert-dismissible card p-0">
+                            <div class="card-header d-flex justify-content-evenly align-items-center">
+                                <h3 class="mt-4">This is a Question??</h3>
+                                <a href=" #" class="ml-4 close mt-4" data-dismiss="alert" aria-label="close">&times;</a>
+                            </div>
+                            <div class="card-body">
+                                <ul>
+                                    <li>A.Option 1</li>
+                                    <li>B.Option 2</li>
+                                    <li>C.Option 3</li>
+                                    <li>D.Option 4</li>
+                                </ul>
+                            </div>
+                            <div class="card-footer">
+                                <li>
+                                    <p class="ml-4 text-muted">Correct Answer : A</p>
+                                </li>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Create New Question-->
+                <div class='row' id="question_card">
+                    <div class="row mr-4">
+                        <ul id="qus_list">
+                            <li>
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h2 class="d-inline">Questions Details</h2>
+                                    </div>
+                                    <div class="card-body">
+                                        <!--Form Action-->
+                                        <form action="">
+                                            <div class="row">
+                                                <div class="col-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="imgupload">Image</label>
+                                                        <input type="file" class="form-control form-control-lg"
+                                                            id="imgupload"><br>
+                                                        <button id='mockbutton'>Click to upload Image</button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-8">
+                                                    <div class="row">
+                                                        <div class="col-12 form-group">
+                                                            <label for="question">Question<span class="text-danger">
+                                                                    *</span></label>
+                                                            <input type="text" class="form-control form-control-lg"
+                                                                id="question">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row ">
+                                                        <div class="form-group col-12 col-sm-6 mb-0">
+                                                            <label for="question">Answers(MIN 2)<span
+                                                                    class="text-danger">
+                                                                    *</span></label>
+                                                            <input type="text" class="form-control form-control-lg mb-2"
+                                                                id="ans1" placeholder="Choice_1">
+                                                            <input type="text" class="form-control form-control-lg mb-2"
+                                                                id="ans2" placeholder="Choice_2">
+
+                                                        </div>
+                                                        <div class="form-group mt-0 mt-sm-2 col-12 col-sm-6">
+                                                            <br>
+                                                            <input type="text" class="form-control form-control-lg mb-2"
+                                                                id="ans3" placeholder="Choice_3">
+                                                            <input type="text" class="form-control form-control-lg mb-2"
+                                                                id="ans4" placeholder="Choice_4">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <label for="question">Correct Answer<span
+                                                                    class="text-danger">
+                                                                    *</span></label>
+                                                            <input type="text" class="form-control form-control-lg mb-2"
+                                                                placeholder="Correct Answer" id="correct_answer">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mt-md-2">
+                                                        <div class="col-12">
+                                                            <label for="explanation">Explanation<span
+                                                                    class="text-muted">
+                                                                    (Optional)</span></label>
+                                                            <textarea class="form-control" id="explanation"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row mt-3 p-2">
+                                                <!--Add the form action-->
+                                                <button class="btn btn-success mb-md-1" type="submit">Save</button>
+                                                <button class="mt-2 mt-sm-2 btn btn-secondary"
+                                                    type="reset">Reset</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 text-center d-sm-none d-md-flex " id="ad2">
+                Advertisement Here
+            </div>
+        </div>
+    </div>
+    <footer class='container-fluid col-12' id="footer">
+        <ul id="footer-links">
+            <li><a href='#'>About Us</a></li>
+            <li><a href='#'>Privacy Policy</a></li>
+            <li><a href='#'>Contact Us</a></li>
+            <li><a href='#'>FAQ</a></li>
+            <li><a href='#'>WeCBR Toolkit</a></li>
+        </ul>
+        <ul class="mr-3 mt-4">
+            <li><a href="#"><i class="fa fa-2x fa-facebook-square "></i></a></li>
+            <li><a href="#"><i class="fa fa-2x  fa-linkedin"></i></a></li>
+            <li><a href="#"><i class="fa fa-2x  fa-instagram"></i></a></li>
+            <li><a href="#"><i class="fa fa-2x  fa-envelope"></i></a></li>
+        </ul>
+    </footer>
+</body>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+    crossorigin="anonymous"></script>
+<script src="./script.js"></script>
+
+</html>
