@@ -1,7 +1,10 @@
 body{
    background-color: #eee;
 }
-.container-fluid{
+.container{
+    margin-top: 100px;
+}
+.container-fluid,#container{
     margin-top: 100px;   
 }
 #imgupload{
@@ -22,6 +25,7 @@ a:hover{
  border: 1px solid #ced4da
 }
 #navbar a{
+    margin-left: 10px;
   color: aliceblue;
 }
 .bg-light{
@@ -63,6 +67,19 @@ li{
 #footer-links a{
 margin-right: 10px;
 }
+#ad1{
+    border-right: 1px dashed grey;
+}
+#ad2{
+    border-left: 1px dashed grey;
+   
+}
+#container{
+    min-height: 100vh;
+}
+i{
+     font-size: 10px;
+}
 
 @media(max-width:600px){
   
@@ -70,4 +87,11 @@ margin-right: 10px;
         display: flex;
         flex-direction: column;
     }
+    #ad1,#ad2{
+        display: none;
+
+    }
+  #container{
+    min-height: 100vh;
+}
 }
