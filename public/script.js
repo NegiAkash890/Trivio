@@ -14,26 +14,33 @@
             }, false);
         });
     }, false);
+    var Question_Card = document.getElementById('question_card')
+    var form = document.getElementsByTagName('form')
+    var input = document.getElementById('imgupload')
+    var button = document.getElementById('mockbutton')
+    var reset = document.getElementById('reset')
+    var add = document.getElementById('add')
+    Question_Card.style.display = 'none'
+    add.addEventListener('click', () => {
+        Question_Card.style.display = 'flex'
+    })
+
+    button.addEventListener('click', () => {
+        input.click()
+    })
+    input.addEventListener("change", () => {
+        if (input.value) {
+            button.style.background = 'white'
+            button.innerHTML = 'Image Uploaded'
+        }
+    })
+    reset.addEventListener('click', () => {
+        for (var i = 0; i < form.length; i++) {
+            form[i].reset()
+            button.style.background = "white url('./images/gallery.png') no-repeat center center"
+            button.innerHTML = 'Click to Upload Image'
+        }
+
+    })
+
 })();
-var form = document.getElementsByTagName('form')
-var input = document.getElementById('imgupload')
-var button = document.getElementById('mockbutton')
-var reset = document.getElementById('reset')
-
-button.addEventListener('click', () => {
-    input.click()
-})
-input.addEventListener("change", () => {
-    if (input.value) {
-        button.style.background = 'white'
-        button.innerHTML = 'Image Uploaded'
-    }
-})
-reset.addEventListener('click', () => {
-    for (var i = 0; i < form.length; i++) {
-        form[i].reset()
-        button.style.background = "white url('./images/gallery.png') no-repeat center center"
-        button.innerHTML = 'Click to Upload Image'
-    }
-
-})
