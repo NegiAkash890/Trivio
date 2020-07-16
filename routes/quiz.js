@@ -11,7 +11,8 @@ router.get('/new', isLoggedIn, function(req, res) {
 });
  
 // To create new quiz in DB - POST request to insert details in DB.
-router.post('/new', isLoggedIn, upload.single('photo'), function(req, res) {   
+router.post('/new', isLoggedIn, upload.single('photo'), function(req, res) {  
+    console.log(req.body); 
     var uniqueId    = shortid.generate();
     var quizObj     = {
         uniqueID    : uniqueId,
@@ -19,7 +20,7 @@ router.post('/new', isLoggedIn, upload.single('photo'), function(req, res) {
         description : req.body.description,
         date        : new Date(req.body.date),
         duration    : req.body.duration,
-        image       : req.body.image
+        image       : request.file.filename
     };
     quiz.author = req.user;
     Quiz.register(quizObj, function(err, quiz){
@@ -46,21 +47,18 @@ router.get('/addQuestion/:id', isLoggedIn, function(req, res) {
 });
 
 //  To add questions to a newly created quiz to DB - POST req.
-router.post('/addQuestion/:id', isLoggedIn, upload.any('photos'), function(req, res) {
+router.post('/addQuestion/:id', isLoggedIn, upload.single('photo'), function(req, res) {
     Quiz.findOne({uniqueId: req.params.id}, function(err, quiz) {
         if(err || !quiz) {
             res.redirect('/');
         } else if(quiz.author === req.user) {
             var question    =   {
                 question    : req.body.question,
-                image       : req.body.filename,
+                image       : request.file.filename,
                 answer      : req.body.correctAnswer,
-                editorial   : {
-                    text    : req.body.editorialText,
-                    image   : req.body.editorialImage
-                }
+                editorial   : req.body.editorialText
             };
-            question['options'] = [req.body.ans1, req.body.ans1, req.body.ans1, req.body.ans1];
+            question['options'] = [req.body.ans1, req.body.ans2, req.body.ans2, req.body.ans4];
             quiz.push(question);
             quiz.save();
             res.redirect('quiz/addQuestion/'+req.params.id, {quiz: quiz});
