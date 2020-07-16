@@ -2,7 +2,8 @@ var express                     =   require("express"),
     app                         =   express(),
     bodyParser                  =   require('body-parser'),
     quizRoutes                  =   require("./routes/quiz"),
-    userRoutes                  =   require('./routes/user');
+    userRoutes                  =   require('./routes/user'),
+    User                        =   require('./models/user'),
     path                        =   require("path"),
     fs                          =   require("fs"),
     multer                      =   require("multer"),
@@ -29,7 +30,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect("mongodb://localhost:27017/user2DB", {useNewUrlParser: true});
+mongoose.connect("mongodb://localhost:27017/quiz", {useNewUrlParser: true});
 mongoose.set('useUnifiedTopology', true);
 passport.use(User.createStrategy());
 passport.serializeUser(function(user, done) {

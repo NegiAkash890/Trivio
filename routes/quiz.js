@@ -7,7 +7,7 @@ var express                     =   require("express"),
 
 //  TO create new quiz - Create Quiz Page
 router.get('/new', isLoggedIn, function(req, res) {
-    res.render('index');
+    res.render('quiz/index');
 });
  
 // To create new quiz in DB - POST request to insert details in DB.
@@ -24,21 +24,21 @@ router.post('/new', isLoggedIn, upload.single('photo'), function(req, res) {
     quiz.author = req.user;
     Quiz.register(quizObj, function(err, quiz){
         if(err || !quiz) {
-            res.redirect('/quiz/new');
+            res.redirect('quiz/new');
         } else {
-            res.redirect('/quiz/addQuestion/'+uniqueId);
+            res.redirect('quiz/addQuestion/'+uniqueId);
         }
     });
 });
 
 
 //  To add questions to a newly created quiz - Page.
-router.get('/addQuestion/:id', isLoggedIn ,function(req, res) {
+router.get('/addQuestion/:id', isLoggedIn, function(req, res) {
     Quiz.findOne({uniqueId: req.params.id}, function(err, quiz) {
         if(err || !quiz) {
             res.redirect('/');
         } else if(quiz.author === req.user) {
-            res.render('question', {quiz: quiz});
+            res.render('quiz/question', {quiz: quiz});
         } else {
             res.redirect('/');
         }
@@ -76,7 +76,7 @@ router.get('/:id', isLoggedIn, function(req, res) {
         if(err || !quiz) {
             res.redirect('/');
         } else if(quiz) {
-            res.render('filename', {quiz: quiz});
+            res.render('quiz/filename', {quiz: quiz});
         }
     });
 });

@@ -2,27 +2,28 @@ var express                     =   require("express"),
     router                      =   express.Router(),
     User                        =   require("../models/user"),
     multer                      =   require("multer"),
+    passport                    =   require('passport'),
     upload                      =   multer({dest: __dirname + '/uploads/images'});
 
 //  Homepage
 router.get("/", function(req, res){
-    res.render("home");
+    res.render('user/home');
 });
   
   
 //   Login Page 
 router.get("/login", function(req, res){
-    res.render("login");
+    res.render("user/login");
 });
   
 //  Register Page
 router.get("/register", function(req, res){
-    res.render("register");
+    res.render("user/register");
 });   
   
 //     
 router.get("/secrets", function(req, res){
-    res.render("secrets");
+    res.render("user/secrets");
 });
   
   
