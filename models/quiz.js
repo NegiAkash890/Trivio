@@ -11,7 +11,11 @@ var quizSchema                  =   new mongoose.Schema({
         question    : String,
         image       : String,
         options     : [String],
-        answer      : Number
+        answer      : Number,
+        editorial   : {
+            text    : String,
+            image   : String
+        }
     }],
     author    : [{
         type: mongoose.Schema.Types.ObjectId,
