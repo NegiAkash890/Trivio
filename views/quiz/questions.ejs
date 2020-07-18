@@ -9,13 +9,13 @@
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="./style.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 
 <body>
     <nav class="navbar navbar-dark navbar-expand-lg  bg-light fixed-top" id="navbar">
         <a class="navbar-brand" href="#">
-            <img src="./images/logo.jpeg" width="50" height="50" alt="" loading="lazy">
+            <img src="/images/logo.jpeg" width="50" height="50" alt="" loading="lazy">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,6 +51,7 @@
             <div class="col-md-3 text-center d-sm-none d-md-flex" id='ad1'>
                 Advertisement Here
             </div>
+            
             <div class="col-md-6">
                 <div class="row  mt-md-4">
                     <div class="col-12 add_question">
@@ -64,33 +65,38 @@
                     be used.
                     -->
                     <!-- Render Question Here using EJS-->
-                    <div class="col-12 mt-4">
-                        <div class="alert alert-dismissible card p-0">
-                            <div class="card-header d-flex justify-content-evenly align-items-center">
-                                <h3 class="mt-4">This is a Question??</h3>
-                                <a href=" #" class="ml-4 close mt-4" data-dismiss="alert" aria-label="close">&times;</a>
+                    <% if(quiz.questions.length != 0) { %>
+                        <% quiz.questions.forEach(function(ques){ %>
+                            <div class="col-12 mt-4">
+                                <div class="alert alert-dismissible card p-0">
+                                    <div class="card-header d-flex justify-content-evenly align-items-center">
+                                        <h3 class="mt-4"><%= ques.question %></h3>
+                                        <a href=" #" class="ml-4 close mt-4" data-dismiss="alert" aria-label="close">&times;</a>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul>
+                                            <% ques.options.forEach(function(option) { %>
+                                                <li><%= option.text %></li>
+                                            <% }) %>
+                                        </ul>
+                                    </div>
+                                    <div class="card-footer">
+                                        <li>
+                                            <p class="ml-4 text-muted">Correct Answer : <%= ques.answer %></p>
+                                        </li>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="card-body">
-                                <ul>
-                                    <li>A.Option 1</li>
-                                    <li>B.Option 2</li>
-                                    <li>C.Option 3</li>
-                                    <li>D.Option 4</li>
-                                </ul>
-                            </div>
-                            <div class="card-footer">
-                                <li>
-                                    <p class="ml-4 text-muted">Correct Answer : A</p>
-                                </li>
-                            </div>
-                        </div>
-                    </div>
+                        <% })  %>
+                    <% } %>
+                    
                 </div>
                 <!-- Create New Question-->
                 <div class='row' id="question_card">
                     <div class="row mr-4">
                         <ul id="qus_list">
                             <li>
+                                <form action="/quiz/addQuestion/<%= quiz.uniqueID %>" method="POST">
                                 <div class="card">
                                     <div class="card-header">
                                         <h2 class="d-inline">Questions Details</h2>
@@ -113,7 +119,7 @@
                                                             <label for="question">Question<span class="text-danger">
                                                                     *</span></label>
                                                             <input type="text" class="form-control form-control-lg"
-                                                                id="question">
+                                                                id="question" name="question" >
                                                         </div>
                                                     </div>
                                                     <div class="row ">
@@ -122,17 +128,17 @@
                                                                     class="text-danger">
                                                                     *</span></label>
                                                             <input type="text" class="form-control form-control-lg mb-2"
-                                                                id="ans1" placeholder="Choice_1">
+                                                                id="ans1" placeholder="Choice_1" name="option1">
                                                             <input type="text" class="form-control form-control-lg mb-2"
-                                                                id="ans2" placeholder="Choice_2">
+                                                                id="ans2" placeholder="Choice_2" name="option2">
 
                                                         </div>
                                                         <div class="form-group mt-0 mt-sm-2 col-12 col-sm-6">
                                                             <br>
                                                             <input type="text" class="form-control form-control-lg mb-2"
-                                                                id="ans3" placeholder="Choice_3">
+                                                                id="ans3" placeholder="Choice_3" name="option3">
                                                             <input type="text" class="form-control form-control-lg mb-2"
-                                                                id="ans4" placeholder="Choice_4">
+                                                                id="ans4" placeholder="Choice_4" name="option4">
                                                         </div>
                                                     </div>
                                                     <div class="row">
@@ -141,7 +147,7 @@
                                                                     class="text-danger">
                                                                     *</span></label>
                                                             <input type="text" class="form-control form-control-lg mb-2"
-                                                                placeholder="Correct Answer" id="correct_answer">
+                                                                placeholder="Correct Answer" id="correct_answer" name="answer">
                                                         </div>
                                                     </div>
                                                     <div class="row mt-md-2">
@@ -149,7 +155,7 @@
                                                             <label for="explanation">Explanation<span
                                                                     class="text-muted">
                                                                     (Optional)</span></label>
-                                                            <textarea class="form-control" id="explanation"></textarea>
+                                                            <textarea class="form-control" id="explanation" name="editorial"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -164,11 +170,13 @@
                                         </form>
                                     </div>
                                 </div>
+                            </form>
                             </li>
                         </ul>
                     </div>
                 </div>
             </div>
+            
             <div class="col-md-3 text-center d-sm-none d-md-flex " id="ad2">
                 Advertisement Here
             </div>

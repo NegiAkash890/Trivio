@@ -42,12 +42,12 @@
         </div>
     </nav>
     <div class="container-fluid">
+        <form class="needs-validation" action='/quiz/new' method="POST" novalidate>
         <div class="row ">
             <!-- <div class="col-3 d-none d-lg-block" id='adv1'>
 
             </div> -->
             <div class="offset-0 offset-md-1 col-md-4">
-                <form class="needs-validation" id='form' action='/quiz/new' method="POST" novalidate>
                     <div class="form-group">
                         <label for="imgupload">Image</label>
                         <input type="file" class="form-control form-control-lg" id="imgupload"><br>
@@ -55,38 +55,37 @@
                     </div>
                     <div class="form-group">
                         <label for="code">Quiz Code<span class="text-muted"> #</span></label>
-                        <input type="text" class="form-control form-control-lg" id="code" required>
+                        <input type="text" class="form-control form-control-lg" id="code" name="uniqueID" required>
                         <div class="invalid-feedback">This field is required</div>
                     </div>
-                </form>
+                
             </div>
             <div class="col-md-6">
-                <form class="needs-validation" action='/quiz/new' novalidate>
                     <div class="form-group">
                         <label for="quiz_topic">Quiz topic</label>
-                        <input type="text" class="form-control form-control-lg" id="quiz_topic" required>
+                        <input type="text" class="form-control form-control-lg" id="quiz_topic" name="topic" required>
                         <div class="invalid-feedback">This field is required</div>
                     </div>
                     <div class="form-group">
                         <label for="quiz_describe">Description</label>
-                        <textarea class="form-control form-control-lg"></textarea>
+                        <textarea class="form-control form-control-lg" name="desc"></textarea>
                     </div>
                     <div class="form-group">
                         <div class="row">
                             <div class="col-6 col-md-4">
                                 <label for="date">Date</label>
-                                <input type="date" class='form-control form-control-lg' id="date" required>
+                                <input type="date" class='form-control form-control-lg' id="date" name="date" required>
                                 <div class="invalid-feedback">This field is required</div>
                             </div>
                             <div class="col-6  col-md-4" id="datetime">
                                 <label for='time'>Start Time</label>
-                                <input type="time" class="form-control form-control-lg" required>
+                                <input type="time" class="form-control form-control-lg" name="time" required>
                                 <div class="invalid-feedback">This field is required</div>
                             </div>
                             <div class="mt-3 mt-sm-0 col-md-4">
                                 <label for='time_period'>Quiz Duration(Minutes)</label>
                                 <input type="number" class="form-control form-control-lg" id='time_period' min="30"
-                                    max="120" step="10" value="15" required>
+                                    max="120" step="10" value="15" name="duration" required>
                                 <div class="invalid-feedback">This field is required</div>
                             </div>
                         </div>

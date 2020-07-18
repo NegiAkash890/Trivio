@@ -17,17 +17,17 @@ router.post('/new', isLoggedIn, upload.single('photo'), function(req, res) {
     var quizObj     = {
         uniqueID    : uniqueId,
         topic       : req.body.topic,
-        description : req.body.description,
+        description : req.body.desc,
         date        : new Date(req.body.date),
         duration    : req.body.duration,
-        image       : request.file.filename
     };
-    quiz.author = req.user;
-    Quiz.register(quizObj, function(err, quiz){
-        if(err || !quiz) {
-            res.redirect('quiz/new');
+    
+    quizObj["author"] = req.user;
+    Quiz.create(quizObj, function(err, quiz){
+        if(err) {
+            res.redirect('/quiz/new');
         } else {
-            res.redirect('quiz/addQuestion/'+uniqueId);
+            res.redirect('/quiz/addQuestion/'+uniqueId);
         }
     });
 });
@@ -35,11 +35,11 @@ router.post('/new', isLoggedIn, upload.single('photo'), function(req, res) {
 
 //  To add questions to a newly created quiz - Page.
 router.get('/addQuestion/:id', isLoggedIn, function(req, res) {
-    Quiz.findOne({uniqueId: req.params.id}, function(err, quiz) {
+    Quiz.findOne({uniqueID: req.params.id}, function(err, quiz) {
         if(err || !quiz) {
             res.redirect('/');
-        } else if(quiz.author === req.user) {
-            res.render('quiz/question', {quiz: quiz});
+        } else if(quiz.author == req.user.id) {
+            res.render('quiz/questions', {quiz: quiz});
         } else {
             res.redirect('/');
         }
@@ -48,20 +48,20 @@ router.get('/addQuestion/:id', isLoggedIn, function(req, res) {
 
 //  To add questions to a newly created quiz to DB - POST req.
 router.post('/addQuestion/:id', isLoggedIn, upload.single('photo'), function(req, res) {
-    Quiz.findOne({uniqueId: req.params.id}, function(err, quiz) {
+    Quiz.findOne({uniqueID: req.params.id}, function(err, quiz) {
         if(err || !quiz) {
             res.redirect('/');
-        } else if(quiz.author === req.user) {
+        } else if(quiz.author == req.user.id) {
             var question    =   {
                 question    : req.body.question,
-                image       : request.file.filename,
-                answer      : req.body.correctAnswer,
-                editorial   : req.body.editorialText
+                answer      : req.body.answer,
+                editorial   : req.body.editorial
             };
-            question['options'] = [req.body.ans1, req.body.ans2, req.body.ans2, req.body.ans4];
-            quiz.push(question);
+            if(req.files) question["image"]  = req.file.filename;
+            question['options'] = [{text: req.body.option1}, {text: req.body.option2}, {text: req.body.option3}, {text: req.body.option4}];
+            quiz.questions.push(question);
             quiz.save();
-            res.redirect('quiz/addQuestion/'+req.params.id, {quiz: quiz});
+            res.redirect('/quiz/addQuestion/'+req.params.id);
         } else {
             res.redirect('/');
         }

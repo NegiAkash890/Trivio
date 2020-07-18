@@ -17,10 +17,10 @@ var quizSchema                  =   new mongoose.Schema({
         answer      : Number,
         editorial   : String
     }],
-    author    : [{
+    author    : {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
-    }],
+    },
     password    : String
 });
 

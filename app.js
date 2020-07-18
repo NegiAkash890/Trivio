@@ -30,8 +30,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect("mongodb://localhost:27017/quiz", {useNewUrlParser: true});
-mongoose.set('useUnifiedTopology', true);
+mongoose.connect("mongodb://localhost:27017/quiz", {useNewUrlParser: true, useUnifiedTopology: true});
 passport.use(User.createStrategy());
 passport.serializeUser(function(user, done) {
   done(null, user.id);
