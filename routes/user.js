@@ -7,9 +7,12 @@ var express                     =   require("express"),
 
 //  Homepage
 router.get("/", function(req, res){
+  if(req.isAuthenticated()) {
+    res.render('user/dashboard');
+  } else {
     res.render('user/home');
+  }
 });
-  
   
 //   Login Page 
 router.get("/login", function(req, res){
@@ -17,16 +20,10 @@ router.get("/login", function(req, res){
 });
   
 //  Register Page
-router.get("/register", function(req, res){
+router.get("/register", function(req, res) {
     res.render("user/register");
 });   
-  
-//     
-router.get("/secrets", function(req, res){
-    res.render("user/secrets");
-});
-  
-  
+
 //  Logout API
 router.get("/logout", function(req, res){
     req.logout();
@@ -41,7 +38,7 @@ router.post("/register", function(req, res){
         res.redirect("/register");
       } else {
         passport.authenticate("local")(req, res, function(){
-          res.redirect("/secrets");
+          res.redirect("/");
         });
       }
     });
@@ -59,7 +56,7 @@ router.post("/login", function(req, res){
         console.log(err);
       } else {
         passport.authenticate("local")(req, res, function(){
-          res.redirect("/secrets");
+          res.redirect("/");
         });
       }
     });

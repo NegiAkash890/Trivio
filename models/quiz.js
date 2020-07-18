@@ -10,7 +10,10 @@ var quizSchema                  =   new mongoose.Schema({
     questions   : [{
         question    : String,
         image       : String,
-        options     : [String],
+        options     : [{
+            isImage : Boolean,
+            text    : String
+        }],
         answer      : Number,
         editorial   : String
     }],
@@ -18,6 +21,7 @@ var quizSchema                  =   new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     }],
+    password    : String
 });
 
 module.exports  =   mongoose.model('Quiz', quizSchema);
