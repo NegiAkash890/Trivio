@@ -1,3 +1,16 @@
+///added a comment in new-feature branch//
+var ip1 = document.getElementById('ip1')
+var ip2 = document.getElementById('ip2')
+var ip3 = document.getElementById('ip3')
+var ip4 = document.getElementById('ip4')
+var choice_1 = document.getElementById('c1')
+var choice_2 = document.getElementById('c2')
+var choice_3 = document.getElementById('c3')
+var choice_4 = document.getElementById('c4')
+var choice_value_1 = document.getElementById('ip1_value')
+var choice_value_2 = document.getElementById('ip2_value')
+var choice_value_3 = document.getElementById('ip3_value')
+var choice_value_4 = document.getElementById('ip4_value');
 (function () {
     'use strict';
     window.addEventListener('load', function () {
@@ -40,7 +53,14 @@
                 button[i].value = ''
             }
         }
-
+        ip1.value = ''
+        choice_value_1.innerText = 'No File Selected'
+        ip2.value = ''
+        choice_value_2.innerText = 'No File Selected'
+        ip3.value = ''
+        choice_value_3.innerText = 'No File Selected'
+        ip4.value = ''
+        choice_value_4.innerText = 'No File Selected'
     })
 
 })();
@@ -56,6 +76,38 @@ else {
     Question_Card.style.display = 'none'
     add.addEventListener('click', () => {
         Question_Card.style.display = 'flex'
+    })
+
+
+    choice_1.addEventListener('click', () => {
+        var ip1 = document.getElementById('ip1')
+        ip1.click()
+    })
+    ip1.addEventListener('change', () => {
+        choice_value_1.innerText = ip1.value.split('\\')[2]
+    })
+    choice_2.addEventListener('click', () => {
+        var ip2 = document.getElementById('ip2')
+        ip2.click()
+    })
+    ip2.addEventListener('change', () => {
+        choice_value_2.innerText = ip2.value.split('\\')[2]
+    })
+    choice_3.addEventListener('click', () => {
+        var ip3 = document.getElementById('ip3')
+        ip3.click()
+    })
+    ip3.addEventListener('change', () => {
+
+        choice_value_3.innerText = ip3.value.split('\\')[2]
+    })
+    choice_4.addEventListener('click', () => {
+        var ip4 = document.getElementById('ip4')
+        ip4.click()
+    })
+    ip4.addEventListener('change', () => {
+
+        choice_value_4.innerText = ip4.value.split('\\')[2]
     })
 }
 
