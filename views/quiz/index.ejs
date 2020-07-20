@@ -49,30 +49,30 @@
                 Space can be used for the Advertisement Purpose
             </div> -->
             <div class="col-12" id='main-container'>
-                <form class="needs-validation" id='form' action='/quiz/new' method="POST" novalidate>
+                <form class="needs-validation" id='form' action='/quiz/new' method="POST" enctype="multipart/form-data" novalidate>
                     <div class="col-12 col-md-12">
                         <div class="form-group">
                             <label for="imgupload">Image</label>
-                            <input type="file" class="form-control form-control-lg" id="imgupload"
-                                name='quiz_image'><br>
+                            <input type="file" class="form-control form-control-lg" id="imgupload" name='quizImage'>
+                            <br>
                             <button class='mockbutton' type="button">Click to upload Image</button>
                         </div>
                         <div class="form-group">
                             <label for="code">Quiz Code<span class="text-muted"> #</span></label>
-                            <input type="text" class="form-control form-control-lg" id="code" name='q_code' required>
-                            <div class="invalid-feedback">This field is required</div>
+                            <input type="text" class="form-control form-control-lg" id="code" value="<%=uniqueID%>" name="uniqueId" me='q_code' required>
+                            <div class="invalid-feedback"></div>
                         </div>
                     </div>
                     <div class="col-12 col-md-12">
                         <div class="form-group">
                             <label for="quiz_topic">Quiz topic</label>
-                            <input type="text" class="form-control form-control-lg" id="quiz_topic" name="q_topic"
+                            <input type="text" class="form-control form-control-lg" id="quiz_topic" name="topic"
                                 required>
                             <div class="invalid-feedback">This field is required</div>
                         </div>
                         <div class="form-group">
                             <label for="quiz_describe">Description<span class="text-muted">(optional)</span></label>
-                            <textarea class="form-control form-control-lg" name='description'></textarea>
+                            <textarea class="form-control form-control-lg" name='desc'></textarea>
                         </div>
                         <div class="form-group">
                             <div class="row">
@@ -84,48 +84,45 @@
                                 </div>
                                 <div class="col-6  col-md-4" id="datetime">
                                     <label for='time'>Start Time</label>
-                                    <input type="time" class="form-control form-control-lg" name='start-time' required>
+                                    <input type="time" class="form-control form-control-lg" name='startTime' required>
                                     <div class="invalid-feedback">This field is required</div>
                                 </div>
                                 <div class=" mt-sm-3 mt-md-0 col-md-4">
                                     <label for='time_period'>Quiz Duration<span class="text-muted">
                                             (minutes)</span></label>
                                     <input type="number" class="form-control form-control-lg" id='time_period' min="5"
-                                        max="120" step="10" value="5" name='duration' required>
+                                        max="120" step="5" value="10" name='duration' required>
                                     <div class="invalid-feedback">This field is required</div>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="row">
-                                <div class="col-md-6 mt-1 mt-md-4">
-                                    <label for="time_choice">
-                                        Time for answering one question<span class="text-muted"> (sec)</span>
-                                    </label>
-                                    <input type="number" class='form-control form-control-lg' id="time_choice"
-                                        placeholder="seconds" min=10 max="30" value="10" name='time_limit'>
+                                <div class="col-6 col-md-4">
+                                    <label for="end-date">End-Date</label>
+                                    <input type="date" class='form-control form-control-lg' id="end-date" name='enddate' required>
+                                    <div class="invalid-feedback">This field is required</div>
                                 </div>
-                                <div class="col-md-6 mt-3 mt-md-0">
-                                    <label for='time_review'>Time for reviewing correct answers for one
-                                        question<span class="text-muted"> (sec)</span></label>
-                                    <input type="number" class="form-control form-control-lg" id="time_review"
-                                        placeholder="seconds" min=10 max=30 value="15" name='review_time'>
+                                <div class="col-6  col-md-4" id="enddatetime">
+                                    <label for='endtime'>End Time</label>
+                                    <input type="time" class="form-control form-control-lg" id='endtime' name="endtime" required>
+                                    <div class="invalid-feedback">This field is required</div>
+                                </div>
+                                <div class=" mt-sm-3 mt-md-0 col-md-4">
+                                    <label for="pwd">Password</label>
+                                    <input type="text" class='form-control form-control-lg' id="pwd"
+                                        placeholder="Password" name='pwd'>    
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="btn-group text-center">
-                                <div class="col-4">
+                                <div class="col-6">
                                     <button type="reset" id="reset" class="btn btn-danger">CANCEL</button>
                                 </div>
-                                <div class="col-4">
+                                <div class="col-6">
                                     <button type="submit" id="save" class="btn btn-success">SAVE</button>
                                 </div>
-                                <div class="col-4">
-                                    <button type="submit" href="./card.html" id='next'
-                                        class="btn btn-primary">NEXT</button>
-                                </div>
-
                             </div>
                         </div>
                     </div>
@@ -162,6 +159,6 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
     integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
     crossorigin="anonymous"></script>
-<script src="/script.js"></script> <!-- Check these -->
+<script src="/js/script.js"></script> <!-- Check these -->
 
 </html>

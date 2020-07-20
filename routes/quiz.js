@@ -2,32 +2,45 @@ var express                     =   require("express"),
     router                      =   express.Router(),
     Quiz                        =   require("../models/quiz"),
     multer                      =   require("multer"),
-    shortid                     =   require('shortid'),
-    upload                      =   multer({dest: '/uploads/images'});
+    shortid                     =   require('shortid');
+    // upload                      =   multer({dest: 'uploads/images'});
+
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, '/uploads/images')
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname + '-' + Date.now())
+    }
+});
+var upload = multer({ storage: storage });
 
 //  TO create new quiz - Create Quiz Page
 router.get('/new', isLoggedIn, function(req, res) {
-    res.render('quiz/index');
+    var uniqueId    = shortid.generate();
+    res.render('quiz/index', {uniqueID: uniqueId});
 });
  
 // To create new quiz in DB - POST request to insert details in DB.
-router.post('/new', isLoggedIn, upload.single('photo'), function(req, res) {  
-    console.log(req.body); 
-    var uniqueId    = shortid.generate();
+router.post('/new', isLoggedIn, upload.single('quizImage'), function(req, res) {
+    console.log(req.body);
     var quizObj     = {
-        uniqueID    : uniqueId,
+        uniqueID    : req.body.uniqueId,
         topic       : req.body.topic,
         description : req.body.desc,
-        date        : new Date(req.body.date),
+        date        : new Date(req.body.date+"T"+req.body.startTime+":00"),
+        endDate     : new Date(req.body.enddate+"T"+req.body.endtime+":00"),
         duration    : req.body.duration,
+        password    : req.body.pwd,
     };
-    
     quizObj["author"] = req.user;
+    if(req.files) question["image"]  = req.file.filename;
     Quiz.create(quizObj, function(err, quiz){
         if(err) {
+            console.log(err);
             res.redirect('/quiz/new');
         } else {
-            res.redirect('/quiz/addQuestion/'+uniqueId);
+            res.redirect('/quiz/addQuestion/'+req.body.uniqueId);
         }
     });
 });
@@ -37,6 +50,7 @@ router.post('/new', isLoggedIn, upload.single('photo'), function(req, res) {
 router.get('/addQuestion/:id', isLoggedIn, function(req, res) {
     Quiz.findOne({uniqueID: req.params.id}, function(err, quiz) {
         if(err || !quiz) {
+            console.log(err);
             res.redirect('/');
         } else if(quiz.author == req.user.id) {
             res.render('quiz/questions', {quiz: quiz});

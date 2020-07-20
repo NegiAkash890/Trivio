@@ -5,6 +5,7 @@ var quizSchema                  =   new mongoose.Schema({
     topic       : String,
     description : String,
     date        : {type: Date},
+    endDate     : {type: Date},
     duration    : Number,
     image       : String,
     questions   : [{
