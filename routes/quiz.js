@@ -1,3 +1,5 @@
+const { populate } = require("../models/quiz");
+
 var express                     =   require("express"),
     router                      =   express.Router(),
     Quiz                        =   require("../models/quiz"),
@@ -7,13 +9,19 @@ var express                     =   require("express"),
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, './uploads/images')
+        cb(null, './public/images')
     },
     filename: function (req, file, cb) {
         cb(null, file.originalname + '-' + Date.now() + '.' + file.originalname.substr(file.originalname.lastIndexOf('.')+1))
     }
 });
 var upload = multer({ storage: storage });
+
+router.get('/', isLoggedIn, function(req, res) {
+    Quiz.find({}).populate('author').exec(function(err, quizzes) {
+        res.render('quiz/renderquiz', {quizzes: quizzes});
+    });
+});
 
 //  TO create new quiz - Create Quiz Page
 router.get('/new', isLoggedIn, function(req, res) {
@@ -97,7 +105,7 @@ router.post('/addQuestion/:id', isLoggedIn, cpUpload, function(req, res) {
 
 //  To show the quiz details acc. to uniqueID.
 router.get('/:id', isLoggedIn, function(req, res) {
-    Quiz.findOne({uniqueId: req.params.id}, function(err, quiz) {
+    Quiz.findOne({uniqueID: req.params.id}, function(err, quiz) {
         if(err || !quiz) {
             res.redirect('/');
         } else if(quiz) {
