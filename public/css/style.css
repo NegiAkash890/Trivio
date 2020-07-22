@@ -27,7 +27,7 @@ a:hover{
  background-position: center !important;
  background-color:white;
  background-clip: padding-box;
- background-image: url('./images/gallery.png');
+ background-image: url('../images/gallery.png');
  border: 1px solid #ced4da
 }
 #navbar a{

@@ -12,10 +12,10 @@ var quizSchema                  =   new mongoose.Schema({
         question    : String,
         image       : String,
         options     : [{
-            isImage : Boolean,
-            text    : String
+            image   : String,
+            text    : String,
+            isAnswer: Boolean
         }],
-        answer      : Number,
         editorial   : String
     }],
     author    : {

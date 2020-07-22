@@ -7,10 +7,10 @@ var express                     =   require("express"),
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, '/uploads/images')
+        cb(null, './uploads/images')
     },
     filename: function (req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now())
+        cb(null, file.originalname + '-' + Date.now() + '.' + file.originalname.substr(file.originalname.lastIndexOf('.')+1))
     }
 });
 var upload = multer({ storage: storage });
@@ -53,7 +53,7 @@ router.get('/addQuestion/:id', isLoggedIn, function(req, res) {
             console.log(err);
             res.redirect('/');
         } else if(quiz.author == req.user.id) {
-            res.render('quiz/questions', {quiz: quiz});
+            res.render('quiz/questions1', {quiz: quiz});
         } else {
             res.redirect('/');
         }
@@ -61,18 +61,31 @@ router.get('/addQuestion/:id', isLoggedIn, function(req, res) {
 });
 
 //  To add questions to a newly created quiz to DB - POST req.
-router.post('/addQuestion/:id', isLoggedIn, upload.single('photo'), function(req, res) {
+var cpUpload = upload.fields([{ name: 'quesimg', maxCount: 1 }, { name: 'optionimg', maxCount: 4 }])
+router.post('/addQuestion/:id', isLoggedIn, cpUpload, function(req, res) {
+    console.log(req.body);
     Quiz.findOne({uniqueID: req.params.id}, function(err, quiz) {
         if(err || !quiz) {
             res.redirect('/');
         } else if(quiz.author == req.user.id) {
             var question    =   {
                 question    : req.body.question,
-                answer      : req.body.answer,
-                editorial   : req.body.editorial
+                editorial   : req.body.editorial,
+                options     : []
             };
-            if(req.files) question["image"]  = req.file.filename;
-            question['options'] = [{text: req.body.option1}, {text: req.body.option2}, {text: req.body.option3}, {text: req.body.option4}];
+            for(var i=1; i<=4; i++) {
+                var options = {};
+                if(req.body['option'+i] != "") {
+                    options = {text: req.body['option'+i], isAnswer: req.body['option'+i+'answer'] == '' ? true : false};
+                }
+                if(req.files && req.files['optionimg'] && req.files['optionimg'][i-1]) {
+                    options['image'] = req.files['optionimg'][i-1].filename;
+                };
+                question.options.push(options);
+            }
+            if(req.files && req.files['quesimg'][0]) {
+                question["image"]  = req.files['quesimg'][0].filename;
+            }
             quiz.questions.push(question);
             quiz.save();
             res.redirect('/quiz/addQuestion/'+req.params.id);
