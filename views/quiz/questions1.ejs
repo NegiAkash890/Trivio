@@ -82,6 +82,10 @@
                                         <!--Quiz code to be fetched from the Quiz info-->
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                         <strong>Code - </strong><span class="quiz-code badge badge-pill badge-danger ml-3"><%= quiz.uniqueID %></span>
+                                        <br>
+                                        <strong>Total Points - </strong><%= quiz.totalPoints %>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <strong>Duration - </strong><%= parseInt(quiz.totalDuration/60) + " minutes, " + quiz.totalDuration%60 + " seconds" %>
                                     </div>
                                     <div class="card-description">
                                         <strong>Description - </strong>

@@ -120,7 +120,7 @@ router.get('/:id', isLoggedIn, function(req, res) {
         if(err || !quiz) {
             res.redirect('/quiz');
         } else {
-            res.render('quiz/filename', {quiz: quiz});
+            res.render('quiz/scores', {quiz: quiz});
         }
     });
 });
@@ -131,7 +131,10 @@ router.post('/:id/delete/:idx', isLoggedIn, function(req, res) {
             res.json({'status': 0});
         } else if(req.user.id == quiz.author) {
             if(req.params.idx >= 0 && req.params.idx < quiz.questions.length) {
+                var question = quiz.questions[idx];
                 quiz.questions.splice(req.params.idx, 1);
+                quiz.totalDuration -= question.duration;
+                quiz.totalPoints   -= question.points;
                 quiz.save();
             }
             res.json({'status': 1});
