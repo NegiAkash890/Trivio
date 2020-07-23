@@ -71,15 +71,28 @@
                                                 <a href=" #" class="ml-4 close mt-4" data-dismiss="alert" aria-label="close">&times;</a>
                                             </div>
                                             <div class="card-body">
-                                                <ul>
-                                                    <% ques.options.forEach(function(option) { %>
-                                                        <li><%= option.text %></li>
-                                                    <% }) %>
-                                                </ul>
+                                                <div class="card-img-top d-flex justify-content-center align-items-center">
+                                                    <% if(ques.image != "") { %>
+                                                        <img src="/images/<%= ques.image %>" class='img' width="100px" height="150px">
+                                                    <% } else { %>
+                                                    <!--If no picture is provided use this as defalut-->
+                                                    <% } %>
+                                                </div>
+                                                <div class="col-12 mt-4">
+                                                    <ul>
+                                                        <% ques.options.forEach(function(option) { %>
+                                                            <li><%= option.text %>
+                                                                <% if(option.isAnswer) { %>
+                                                                    <i class="fa fa-check-circle" aria-hidden="true"></i>
+                                                                <% } %> 
+                                                            </li>
+                                                        <% }) %>
+                                                    </ul>
+                                                </div>
                                             </div>
                                             <div class="card-footer">
                                                 <li>
-                                                    <p class="ml-4 text-muted">Correct Answer : <%= ques.answer %></p>
+                                                    <p class="ml-4 text-muted">Editorial : <%= ques.editorial %></p>
                                                 </li>
                                             </div>
                                         </div>

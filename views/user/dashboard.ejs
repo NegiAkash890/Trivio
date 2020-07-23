@@ -28,9 +28,14 @@
     <section id="header" class="jumbotron text-center">
         <h1 class="display-3">WECBR QUIZ</h1>
         <p class="lead text-danger">Conduct Multiplayer Quizzes in Real Time</p>
-        <a href="" class="btn btn-danger">Join Quiz</a>
-        <a href="/quiz/new" class="btn btn-danger">Create Quiz</a>
-        <a href="/logout" class="btn btn-danger">Logout</a>
+        <% if(currentUser) { %>
+            <a href="/quiz" class="btn btn-danger">Join Quiz</a>
+            <a href="/quiz/new" class="btn btn-danger">Create Quiz</a>
+            <a href="/logout" class="btn btn-danger">Logout</a>
+        <% } else { %>
+            <a href="/register" class="btn btn-danger">Register</a>
+            <a href="/login" class="btn btn-danger">Login</a>
+        <% } %>
     </section>
 
     <section id="gallery">

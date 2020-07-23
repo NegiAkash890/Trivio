@@ -30,6 +30,11 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(function(req, res, next){
+  res.locals.currentUser   = req.user;
+  next();
+});
+
 mongoose.connect("mongodb://localhost:27017/quiz", {useNewUrlParser: true, useUnifiedTopology: true});
 passport.use(User.createStrategy());
 passport.serializeUser(function(user, done) {

@@ -31,7 +31,6 @@ router.get('/new', isLoggedIn, function(req, res) {
  
 // To create new quiz in DB - POST request to insert details in DB.
 router.post('/new', isLoggedIn, upload.single('quizImage'), function(req, res) {
-    console.log(req.body);
     var quizObj     = {
         uniqueID    : req.body.uniqueId,
         topic       : req.body.topic,
@@ -40,9 +39,10 @@ router.post('/new', isLoggedIn, upload.single('quizImage'), function(req, res) {
         endDate     : new Date(req.body.enddate+"T"+req.body.endtime+":00"),
         duration    : req.body.duration,
         password    : req.body.pwd,
+        image       : ""
     };
     quizObj["author"] = req.user;
-    if(req.files) question["image"]  = req.file.filename;
+    if(req.file) quizObj.image  = req.file.filename;
     Quiz.create(quizObj, function(err, quiz){
         if(err) {
             console.log(err);
@@ -105,10 +105,11 @@ router.post('/addQuestion/:id', isLoggedIn, cpUpload, function(req, res) {
 
 //  To show the quiz details acc. to uniqueID.
 router.get('/:id', isLoggedIn, function(req, res) {
+    console.log(req.params.id);
     Quiz.findOne({uniqueID: req.params.id}, function(err, quiz) {
         if(err || !quiz) {
             res.redirect('/');
-        } else if(quiz) {
+        } else {
             res.render('quiz/filename', {quiz: quiz});
         }
     });

@@ -24,10 +24,10 @@
         <div class="ml-md-4 collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <i class="d-md-block ml-2 fa fa-home"></i></a>
+                    <a class="nav-link" href="/">Home <i class="d-md-block ml-2 fa fa-home"></i></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./questions.html">My Quiz <i
+                    <a class="nav-link" href="/quiz">My Quiz <i
                             class="d-md-block ml-2 fa fa-motorcycle"></i></a>
                 </li>
                 <li class="nav-item">
@@ -46,9 +46,9 @@
         <div class="input-group mb-3">
             <!--This search show fetch all the quizzes in our database as we have not set any
             visibility on Quizzes-->
-            <input type="text" class="form-control form-control-lg" placeholder="Seach By Code ..">
+            <input type="text" class="form-control form-control-lg" id="searchID" name="searchID" placeholder="Join By Code ..">
             <div class="input-group-append">
-                <button class="btn btn-danger" type="submit"><i class="ml-2 fa fa-search"></i></button>
+                <button class="btn btn-danger" onclick="joinquiz()" type="submit">JOIN</button>
             </div>
         </div>
         <!--Note Use EJS wherever necessary-->
@@ -87,7 +87,7 @@
                                     </p>
                                 </div>
                                 <div class="card-footer">
-                                    <button class='btn btn-primary' type="submit">Join</button>
+                                    <a href="/quiz/<%= quiz.uniqueID %>"><button class='btn btn-primary'>Join</button></a>
                                 </div>
                             </div>
                         </div>
@@ -113,6 +113,14 @@
         </ul>
     </footer>
 </body>
+<script>
+    function joinquiz() {
+        var id = document.getElementById('searchID').value;
+        if(id && id!="") {
+            window.location = "/quiz/"+id;
+        }
+    }
+</script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
     integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
     crossorigin="anonymous"></script>

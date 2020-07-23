@@ -7,11 +7,7 @@ var express                     =   require("express"),
 
 //  Homepage
 router.get("/", function(req, res){
-  if(req.isAuthenticated()) {
-    res.render('user/dashboard');
-  } else {
-    res.render('user/home');
-  }
+  res.render('user/dashboard');
 });
   
 //   Login Page 
