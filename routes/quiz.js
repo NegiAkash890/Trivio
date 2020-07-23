@@ -37,8 +37,9 @@ router.post('/new', isLoggedIn, upload.single('quizImage'), function(req, res) {
         description : req.body.desc,
         date        : new Date(req.body.date+"T"+req.body.startTime+":00"),
         endDate     : new Date(req.body.enddate+"T"+req.body.endtime+":00"),
-        duration    : req.body.duration,
+        totalDuration    : 0,
         password    : req.body.pwd,
+        totalPoints : 0,
         image       : ""
     };
     quizObj["author"] = req.user;
@@ -79,6 +80,8 @@ router.post('/addQuestion/:id', isLoggedIn, cpUpload, function(req, res) {
             var question    =   {
                 question    : req.body.question,
                 editorial   : req.body.editorial,
+                points      : req.body.points,
+                duration    : req.body.duration,
                 options     : []
             };
             for(var i=1; i<=4; i++) {
@@ -91,9 +94,11 @@ router.post('/addQuestion/:id', isLoggedIn, cpUpload, function(req, res) {
                 };
                 question.options.push(options);
             }
-            if(req.files && req.files['quesimg'][0]) {
+            if(req.files && req.files['quesimg'] && req.files['quesimg'][0]) {
                 question["image"]  = req.files['quesimg'][0].filename;
             }
+            quiz.totalDuration += parseInt(req.body.duration);
+            quiz.totalPoints   += parseInt(req.body.points);
             quiz.questions.push(question);
             quiz.save();
             res.redirect('/quiz/addQuestion/'+req.params.id);

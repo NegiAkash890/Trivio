@@ -6,7 +6,6 @@ var quizSchema                  =   new mongoose.Schema({
     description : String,
     date        : {type: Date},
     endDate     : {type: Date},
-    duration    : Number,
     image       : String,
     questions   : [{
         question    : String,
@@ -16,12 +15,16 @@ var quizSchema                  =   new mongoose.Schema({
             text    : String,
             isAnswer: Boolean
         }],
-        editorial   : String
+        editorial   : String,
+        points      : Number,
+        duration    : Number
     }],
     author    : {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },
+    totalPoints : Number,
+    totalDuration : Number,
     password    : String
 });
 

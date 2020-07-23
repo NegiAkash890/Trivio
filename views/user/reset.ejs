@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WECBR Student Partner</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="../css/register.css">
+  <script src="../js/register2.js"></script>
+</head>
+
+<body>
+
+  <div class="row" style="margin-left:3% ">
+    <div class="col-md-1 pl-6 ">
+      <img src="../images/logo.png" alt="Girl in a jacket" style="width:100px; height:100%; ">
+    </div>
+    <div class="col-md-4 mt-4 bl-0 new2">
+      <h4 class=" heading">WECBR Quiz Section</h4>
+    </div>
+    <!-- <div class="col-md-7">
+    </div> -->
+  </div>
+
+  <div class="row bgbody">
+
+    <div class="col-md-1">
+    </div>
+
+      <div class="col-sm-5 pl-0 ml-0 bl-0 " class="mobile-hide"><img src="../images/seo_gif3.png" class="mobile-hide"></div>
+
+      <div class="col-md-5">
+
+      <div class="jumbotron pb-0" id="jumbotronnew">
+        <h1> Welcome To WECBR :)</h1>
+        <p class="lead">Please Verify Your Account For Reseting Password</p>
+      </div>
+      <form action="/forgot" onsubmit="return validation()" class="basic" method = "POST">
+      
+
+        <div class="form-group">
+          <label class="font-weight-bold" for="exampleInputEmail">Email</label>
+          <input type="email" class="form-control" id="exampleInputEmail" name="email" placeholder="Email ID" required>
+          <small id="emailHelp" class="form-text text-muted ">We'll never share your email with anyone else.</small>
+        </div>
+
+       
+        
+
+       
+        <input type="Submit" name="Submit" value="Submit" class="btn btn-danger" autocomplete="off">
+        </div>
+      </form><br></br><br>
+      <div><a id="loginButton" style="margin-left: 3%" href="#">Login To Your Account</a><br>
+      </div>
+      </div>
+</body>
+
+</html>
