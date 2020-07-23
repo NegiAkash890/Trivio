@@ -25,6 +25,7 @@ var quizSchema                  =   new mongoose.Schema({
     },
     totalPoints : Number,
     totalDuration : Number,
+    isPwdProtected : Boolean,
     password    : String
 });
 

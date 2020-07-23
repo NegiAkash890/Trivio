@@ -50,7 +50,7 @@
             <div class="col-xl-6 col-12">
                 <div class="row mt-md-4">
                     <div class="col-12 add_question">
-                        <button class="btn btn-primary" id="add"> Create NEW Question</button>
+                        <button class="btn btn-primary" id="add"> Quiz Details</button>
                     </div>
                     <!--Intially the Cards will be hidden because when we create the Quiz(Quiz Creation Page) ,
                     the database is empty because there are not questions ye. In the Quiz Question page we have
@@ -62,26 +62,63 @@
                     <!-- Render Question Here using EJS-->
                     <div class="col-12 mt-4">
                         <div class="alert alert-dismissible card p-0">
+                            
+                            
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-img-top d-flex justify-content-center align-items-center">
+                                        <% if(quiz.image != "") { %>
+                                            <img src="/images/<%= quiz.image %>" class='img' width="100px" height="150px">
+                                        <% } else { %>
+                                        <!--If no picture is provided use this as defalut-->
+                                        <img src="./images/gallery.png" class='img' width="100px" height="150px">
+                                        <% } %>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="card-title">
+                                        <!--Card Title to be fetched from the Quiz info-->
+                                        <strong>Topic</strong> - <%= quiz.topic %>
+                                        <!--Quiz code to be fetched from the Quiz info-->
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <strong>Code - </strong><span class="quiz-code badge badge-pill badge-danger ml-3"><%= quiz.uniqueID %></span>
+                                    </div>
+                                    <div class="card-description">
+                                        <strong>Description - </strong>
+                                        <!--Card Description to be fetched from the Quiz info-->
+                                        <%= quiz.description %>
+                                    </div>
+                                    <p class="text-right mt-4 lead">
+                                        <!--Author to be fetched from Quiz Info-->
+                                        Author :<span> <%= currentUser.firstName %></span>
+                                    </p>
+                                </div>
+                            </div>
+
+
                             <% if(quiz.questions.length != 0) { %>
-                                <% quiz.questions.forEach(function(ques){ %>
+                                <% quiz.questions.forEach(function(ques, index){ %>
                                     <div class="col-12 mt-4">
                                         <div class="alert alert-dismissible card p-0">
                                             <div class="card-header d-flex justify-content-evenly align-items-center">
                                                 <h3 class="mt-4"><%= ques.question %></h3>
-                                                <a href=" #" class="ml-4 close mt-4" data-dismiss="alert" aria-label="close">&times;</a>
+                                                <button class="ml-4 close mt-4" data-dismiss="alert" onclick="deleteQues('<%= index %>', '<%= quiz.uniqueID %>')" aria-label="close">&times;</button>
                                             </div>
                                             <div class="card-body">
                                                 <div class="card-img-top d-flex justify-content-center align-items-center">
                                                     <% if(ques.image != "") { %>
-                                                        <img src="/images/<%= ques.image %>" class='img' width="100px" height="150px">
-                                                    <% } else { %>
-                                                    <!--If no picture is provided use this as defalut-->
+                                                        <img src="/images/<%= ques.image %>" class='img' width="250px" height="200px">
                                                     <% } %>
                                                 </div>
                                                 <div class="col-12 mt-4">
                                                     <ul>
                                                         <% ques.options.forEach(function(option) { %>
-                                                            <li><%= option.text %>
+                                                            <li>
+                                                                <%= option.text %>
+                                                                <% if(option.image) { %>
+                                                                    <img src="/images/<%= option.image %>" class='img' width="70px" height="50px">
+                                                                <% } %>
+                                                                
                                                                 <% if(option.isAnswer) { %>
                                                                     <i class="fa fa-check-circle" aria-hidden="true"></i>
                                                                 <% } %> 
@@ -266,6 +303,19 @@
         </ul>
     </footer>
 </body>
+<script>
+    function deleteQues(index, uniqueId) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                console.log('Message deleted');
+            }
+        };
+        xhttp.open("POST", "/quiz/"+uniqueId+'/delete/'+index, true);
+        xhttp.send();
+    }
+</script>
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
     integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
     crossorigin="anonymous"></script>

@@ -38,10 +38,15 @@ router.post('/new', isLoggedIn, upload.single('quizImage'), function(req, res) {
         date        : new Date(req.body.date+"T"+req.body.startTime+":00"),
         endDate     : new Date(req.body.enddate+"T"+req.body.endtime+":00"),
         totalDuration    : 0,
-        password    : req.body.pwd,
         totalPoints : 0,
-        image       : ""
+        image       : "",
+        isPwdProtected : false,
+        password    : ""
     };
+    if(req.body.isPwdProtected == '1') {
+        quizObj.isPwdProtected  =   true,
+        quizObj.password        =   req.body.password;
+    }
     quizObj["author"] = req.user;
     if(req.file) quizObj.image  = req.file.filename;
     Quiz.create(quizObj, function(err, quiz){
@@ -113,9 +118,25 @@ router.get('/:id', isLoggedIn, function(req, res) {
     console.log(req.params.id);
     Quiz.findOne({uniqueID: req.params.id}, function(err, quiz) {
         if(err || !quiz) {
-            res.redirect('/');
+            res.redirect('/quiz');
         } else {
             res.render('quiz/filename', {quiz: quiz});
+        }
+    });
+});
+
+router.post('/:id/delete/:idx', isLoggedIn, function(req, res) {
+    Quiz.findOne({uniqueID: req.params.id}, function(err, quiz) {
+        if(err || !quiz) {
+            res.json({'status': 0});
+        } else if(req.user.id == quiz.author) {
+            if(req.params.idx >= 0 && req.params.idx < quiz.questions.length) {
+                quiz.questions.splice(req.params.idx, 1);
+                quiz.save();
+            }
+            res.json({'status': 1});
+        } else {
+            res.json({'status': 0});
         }
     });
 });
