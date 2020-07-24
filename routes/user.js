@@ -11,7 +11,7 @@ var express                     =   require("express"),
 
 //  Homepage
 router.get("/", function(req, res){
-  res.render('user/dashboard');
+  res.render('user/index');
 });
   
 //   Login Page 
@@ -176,5 +176,24 @@ router.post('/reset/:token', function(req, res) {
     res.redirect('/');
   });
 });
+
+router.get('/dashboard', isLoggedIn, function(req, res) {
+	User.findById(req.user._id).populate('quizCreated').exec(function(err, user) {
+		if(err || !user) {
+			res.redirect('/');
+		} else {
+			res.render('user/dashboard', {user: user});	
+		}
+	})
+}); 
+
+//  Middleware for checking authentication
+function isLoggedIn(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    } else {
+        res.redirect('/login');
+    }
+}
 
 module.exports = router;

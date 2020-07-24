@@ -54,6 +54,8 @@ router.post('/new', isLoggedIn, upload.single('quizImage'), function(req, res) {
             console.log(err);
             res.redirect('/quiz/new');
         } else {
+            req.user.quizCreated.push(quiz);
+            req.user.save();
             res.redirect('/quiz/addQuestion/'+req.body.uniqueId);
         }
     });
@@ -128,18 +130,18 @@ router.get('/:id', isLoggedIn, function(req, res) {
 router.post('/:id/delete/:idx', isLoggedIn, function(req, res) {
     Quiz.findOne({uniqueID: req.params.id}, function(err, quiz) {
         if(err || !quiz) {
-            res.json({'status': 0});
+            res.redirect('/quiz/addQuestion/'+req.params.id);
         } else if(req.user.id == quiz.author) {
             if(req.params.idx >= 0 && req.params.idx < quiz.questions.length) {
-                var question = quiz.questions[idx];
+                var question = quiz.questions[req.params.idx];
                 quiz.questions.splice(req.params.idx, 1);
                 quiz.totalDuration -= question.duration;
                 quiz.totalPoints   -= question.points;
                 quiz.save();
             }
-            res.json({'status': 1});
+            res.redirect('/quiz/addQuestion/'+req.params.id);
         } else {
-            res.json({'status': 0});
+            res.redirect('/quiz/addQuestion/'+req.params.id);
         }
     });
 });

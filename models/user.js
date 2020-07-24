@@ -7,7 +7,11 @@ const user2Schema = new mongoose.Schema ({
     firstName: String,
     lastName: String,
     resetPasswordToken: String,
-    resetPasswordExpires: Date
+    resetPasswordExpires: Date,
+    quizCreated: [{
+    	type: mongoose.Schema.Types.ObjectId,
+        ref: "Quiz"
+    }]
   });
   
 user2Schema.plugin(passportLocalMongoose);

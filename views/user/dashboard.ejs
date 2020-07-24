@@ -1,200 +1,119 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-        crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
-        crossorigin="anonymous">
-   <link rel="stylesheet" type="text/css" href="/css/index.css">
-    <style>
-        #header {
-            background: url("header.jpeg");
-            /* background: url("imgs/header.jpeg") center center / cover no-repeat; */
-        }
-
-    </style>
-
-    <title>WECBR Quiz</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JOIN/SEARCH QUIZ</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 
 <body>
-    
-        <div class="bg-danger">
-    <section id="header" class="jumbotron text-center">
-        <h1 class="display-3">WECBR QUIZ</h1>
-        <p class="lead text-danger">Conduct Multiplayer Quizzes in Real Time</p>
-        <% if(currentUser) { %>
-            <a href="/quiz" class="btn btn-danger">Join Quiz</a>
-            <a href="/quiz/new" class="btn btn-danger">Create Quiz</a>
-            <a href="/logout" class="btn btn-danger">Logout</a>
-        <% } else { %>
-            <a href="/register" class="btn btn-danger">Register</a>
-            <a href="/login" class="btn btn-danger">Login</a>
-        <% } %>
-    </section>
-
-    <section id="gallery">
-       <div class="container ">
-        <h1 class="text-white  head1">WHAT MAKE US DIFFERENT?</h1>
+    <nav class="navbar navbar-dark navbar-expand-lg  bg-light fixed-top" id="navbar">
+        <a class="navbar-brand" href="#">
+            <img src="./images/logo.jpeg" width="50" height="50" alt="" loading="lazy">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon" id="toggler-icon"></span>
+        </button>
+        <div class="ml-md-4 collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home <i class="d-md-block ml-2 fa fa-home"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/quiz">My Quiz <i
+                            class="d-md-block ml-2 fa fa-motorcycle"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">FAQ<i class="d-md-block ml-2 fa fa-sticky-note"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Profile <i class="d-md-block ml-2 fa fa-user"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">AboutUs <i class="d-md-block  ml-2 fa fa-user-secret"></i></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container" style="min-height: 500px;">
+        <div class="">
+           <h3>Your Quizzes</h3>
+        </div>
+        <!--Note Use EJS wherever necessary-->
+        <div class="cards">
             <div class="row">
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <img class="card-img-top" height="500px" width="600px"  src="https://images.unsplash.com/photo-1539628399213-d6aa89c93074?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80" alt="">
-                        
-                        <div class="card-body">
-                            <h5 class="card-title">First Thing</h5>
-                            <p class="card-text text-danger">The Rubik's Cube is a 3-D combination puzzle invented in 1974 by Hungarian sculptor and professor of 
-                                architecture Ernő Rubik. ... Rubik's Cube won the 1980 German Game of the Year special award for Best Puzzle. As of January 2009, 
-                                350 million cubes had been sold worldwide.</p>
-                            <a href="" class="btn btn-outline-success btn-sm">Download</a>
-                            
+                
+                <% if(user.quizCreated.length > 0) { %>
+                    <% user.quizCreated.forEach(function(quiz) { %>
+                        <div class="col-12 col-sm-6 col-md-4 mb-3">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-img-top d-flex justify-content-center align-items-center">
+                                        <% if(quiz.image != "") { %>
+                                            <img src="/images/<%= quiz.image %>" class='img' width="100px" height="150px">
+                                        <% } else { %>
+                                        <!--If no picture is provided use this as defalut-->
+                                        <img src="./images/gallery.png" class='img' width="100px" height="150px">
+                                        <% } %>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="card-title">
+                                        <!--Card Title to be fetched from the Quiz info-->
+                                        <%= quiz.topic %>
+                                        <!--Quiz code to be fetched from the Quiz info-->
+                                        <span class="quiz-code badge badge-pill badge-danger ml-3"><%= quiz.uniqueID %></span>
+                                    </div>
+                                    <div class="card-description">
+                                        <h3>Description</h3>
+                                        <!--Card Description to be fetched from the Quiz info-->
+                                        <%= quiz.description %>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <a href="/quiz/addQuestion/<%= quiz.uniqueID %>"><button class='btn btn-primary'>Add Questions</button></a>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 mb-4">
-                    <div class="card">
-                        <img class="card-img-top" height="500px" width="600px" src="https://images.unsplash.com/photo-1584697964190-7383cbee8277?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80" alt="">
-                        <div class="card-body">
-                            <h5 class="card-title">First Thing</h5>
-                            <p class="card-text text-danger">Technology can be the knowledge of techniques, processes, and the like, or it can be embedded in
-                                 machines to allow for operation without detailed knowledge of their workings.
-                                 ... The simplest form of technology is the development and use of basic tools</p>
-                            <a href="" class="btn btn-outline-success btn-sm">Download</a>
-                            
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 mb-4">
-                    <div class="card">
-                        <img class="card-img-top" height="500px" width="600px" src="https://m.hindustantimes.com/rf/image_size_960x540/HT/p2/2017/08/25/Pictures/bubble-holding-placard-symbols-quiz-text-speech_c0920e52-8961-11e7-b7bc-fa1568cb40f1.jpg" alt="">
-                        <div class="card-body">
-                            <h5 class="card-title">First Thing</h5>
-                            <p class="card-text text-danger">A quiz is a form of game or mind sport, attempt to answer questions correctly.
-                                 It is a game to test knowledge about a certain subject. In some countries, a quiz is also a brief assessment
-                                  used in education and similar fields to measure growth in knowledge, abilities, and/or skills.
-                            </p>
-                            <a href="" class="btn btn-outline-success btn-sm">Download</a>
-                           
-                        </div>
-                    </div>
+                    <% }) %>
+                <% } else { %>
+                    <div>Nothing found !</div>
+                <% } %>
                 </div>
             </div>
-       </div>
-    </section>
-  </div>
-  <section id="gallery">
-       <div class="container ">
-        <h1 class="text-danger  head1">SPECIAL FEATURES</h1>
-            <div class="row">
-         <div class="col">
-            <img class="card-img-top" height="400px" width="400px" src="https://images.unsplash.com/photo-1587093336587-eeca6cb17cf2?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=80" alt="">
-         </div>
-         <div class="col text-danger">
-           <p>Everyone wants to have a nice career—where they get paid for doing something that they love. A career is one of the most important aspects of people’s lives and creating a quiz about 
-               careers can definitely attract attention.
-
-            Take a look at this buzz quiz developed by David Hodgson and published by icould. You’ll be able to find your strengths, jobs that may fit your strengths, 
-            and famous people that have similar characteristics with you. There are 16 different results that are available and each result is represented by an animal.</p>
-         </div>
-       </div>
-       <div class="row">
-         <div class="col text-danger">
-           <p>If you’re a B2B business owner and you want to attract more potential customers, you can try making a quiz that’s related to your industry. 
-               If your content is good, people will keep sharing it, which means that more people within your industry will be aware of your existence.
-            For instance, if you provide a digital marketing training service, you can make a quiz about digital marketing in general like this one from BrightEdge. 
-            The title of the quiz is “Do you think you know Digital Marketing?” and it contains 15 questions to test your overall knowledge of digital marketing.                                     </p>
-         </div>
-         <div class="col">
-            <img class="card-img-top" height="400px" width="400px"  src="https://image.freepik.com/free-vector/quiz-neon-sign_1262-19629.jpg" alt="">
-         </div>
-       </div>
-       <div class="row">
-         <div class="col">
-            <img class="card-img-top"  height="400px" width="400px" src="https://education.medicaldialogues.in/h-upload/2020/02/25/124744-quiz-competition.jpg" alt="">
-         </div>
-         <div class="col text-danger">
-           <p>As mentioned before, people are curious and interested to learn more about themselves. It’s no wonder that most viral quizzes on the 
-               internet are the ones that deal with the audience’s self-assessment, like their personalities, abilities, characteristics, or careers that suit them.  
-            This next example by Brain MD entitled “What’s your brain type?” is no different. This quiz gives you 15 questions regarding how your brain works. After that, the result will show you what brain type do you have, 
-            the characteristics that come with it, and then they’ll give you a product recommendation to improve your brain health. Nice strategy.</p>
-         </div>
-       </div>
-     </div>
-   <br>
-
-     <section id="gallery" class="bg-danger">
-       
-        <h1 class="text-white  head1 ">HOW TO CREATE QUIZ</h1>
-          <img class="card-img-top imgnew" src="https://myquizhub-waveaccess.netdna-ssl.com/app/images/home/sport/QUIZ.svg?ver=4.0.202007132.15" alt="">
-          <a href="" class="text-white  head1 "> CLICK TO CREATE A QUIZ</a>
-          
-
-    </section>
-     <section id="gallery">
-       <div class="container ">
-        <h1 class="text-danger head2">WHY US?</h1>
-            <div class="row">
-                <div class="col-lg-4 mb-4">
-                    <div class="card">
-                        
-                        <div class="card-body bg-light">
-                            <h3 class="card-title text-danger">WORKS ON ANY DEVICE</h3>
-                            <p class="card-text text-dark ">
-                              myQuiz works on smartphones, tablets, laptops, or PCs — all you need is internet access.
-                            </p>
-                            
-                            
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 mb-4">
-                    <div class="card">
-                        
-                        <div class="card-body bg-light text-danger">
-                            <h3 class="card-title">ONLINE AND OFFLINE</h3>
-                            <p class="card-text text-dark ">
-                              Players can take part in your quiz right from the room you host it in, or from any other location.
-                            </p>
-                           
-                            
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 mb-4">
-                    <div class="card">
-                        
-                        <div class="card-body bg-light text-danger">
-                            <h3 class="card-title">NO DOWNLOADING AND INSTALLATION</h3>
-                            <p class="card-text text-dark ">
-                              Launch quizzes and play online with no extra effort required.
-                            </p>
-                            
-                           
-                        </div>
-                    </div>
-                </div>
-            </div>
-       </div>
-    </section>
-  </div>
-    
-  
-
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-        crossorigin="anonymous"></script>
+        </div>
+    </div>
+    <footer class='container-fluid col-12' id="footer">
+        <ul id="footer-links">
+            <li><a href='#'>About Us</a></li>
+            <li><a href='#'>Privacy Policy</a></li>
+            <li><a href='#'>Contact Us</a></li>
+            <li><a href='#'>FAQ</a></li>
+            <li><a href='#'>WeCBR Toolkit</a></li>
+        </ul>
+        <ul class="mr-3 mt-4">
+            <li><a href="#"><i class="fa fa-2x fa-facebook-square "></i></a></li>
+            <li><a href="#"><i class="fa fa-2x  fa-linkedin"></i></a></li>
+            <li><a href="#"><i class="fa fa-2x  fa-instagram"></i></a></li>
+            <li><a href="#"><i class="fa fa-2x  fa-envelope"></i></a></li>
+        </ul>
+    </footer>
 </body>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+    crossorigin="anonymous"></script>
 
 </html>

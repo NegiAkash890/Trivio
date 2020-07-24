@@ -24,7 +24,7 @@
         <div class="ml-md-4 collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <i class="d-md-block ml-2 fa fa-home"></i></a>
+                    <a class="nav-link" href="/">Home <i class="d-md-block ml-2 fa fa-home"></i></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="">My Quiz <i
@@ -77,15 +77,23 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="card-title">
-                                        <!--Card Title to be fetched from the Quiz info-->
-                                        <strong>Topic</strong> - <%= quiz.topic %>
-                                        <!--Quiz code to be fetched from the Quiz info-->
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <strong>Code - </strong><span class="quiz-code badge badge-pill badge-danger ml-3"><%= quiz.uniqueID %></span>
-                                        <br>
-                                        <strong>Total Points - </strong><%= quiz.totalPoints %>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <strong>Duration - </strong><%= parseInt(quiz.totalDuration/60) + " minutes, " + quiz.totalDuration%60 + " seconds" %>
+                                        <div class="">
+                                            <!--Card Title to be fetched from the Quiz info-->
+                                            <strong>Topic</strong> - <%= quiz.topic %>
+                                            <!--Quiz code to be fetched from the Quiz info-->
+                                            <br>
+                                            <strong>Code - </strong><span class="quiz-code badge badge-pill badge-danger ml-3"><%= quiz.uniqueID %></span>
+                                        </div>
+                                        <div>
+                                            <strong>Total Points - </strong><%= quiz.totalPoints %>
+                                            <br>
+                                            <strong>Duration - </strong><%= parseInt(quiz.totalDuration/60) + " minutes, " + quiz.totalDuration%60 + " seconds" %>
+                                        </div>
+                                        <div>
+                                            <strong>Quiz Start Date - </strong><%= quiz.date.toLocaleString() %>
+                                            <br>
+                                            <strong>Quiz End Date - </strong><%= quiz.endDate.toLocaleString() %>
+                                        </div>
                                     </div>
                                     <div class="card-description">
                                         <strong>Description - </strong>
@@ -105,8 +113,7 @@
                                     <div class="col-12 mt-4">
                                         <div class="alert alert-dismissible card p-0">
                                             <div class="card-header d-flex justify-content-evenly align-items-center">
-                                                <h3 class="mt-4"><%= ques.question %></h3>
-                                                <button class="ml-4 close mt-4" data-dismiss="alert" onclick="deleteQues('<%= index %>', '<%= quiz.uniqueID %>')" aria-label="close">&times;</button>
+                                                <h3 class="mt-4"><%= ques.question %></h3>     
                                             </div>
                                             <div class="card-body">
                                                 <div class="card-img-top d-flex justify-content-center align-items-center">
@@ -135,6 +142,9 @@
                                                 <li>
                                                     <p class="ml-4 text-muted">Editorial : <%= ques.editorial %></p>
                                                 </li>
+                                                <form action="/quiz/<%= quiz.uniqueID %>/delete/<%= index %>" method="POST">
+                                                    <button type="submit" style="float: right;color:white;background-color: red;border: none;padding: 8px;">Delete</button>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -252,7 +262,7 @@
                                                         <div class="col-12 col-sm-6">
                                                             <label for="answer_limit">Time limit for answering<span
                                                                     class="text-muted">(sec)</span>
-                                                            <input class="form-control" type="number" min="10" max="120" step=10 value=10 name="duration">
+                                                            <input class="form-control" type="number" min="10" max="120" value=10 name="duration">
                                                         </div>
                                                         <div class="col-12 col-sm-6">
                                                             <label for="custom_point">Points<span class="text-muted">
@@ -307,18 +317,6 @@
         </ul>
     </footer>
 </body>
-<script>
-    function deleteQues(index, uniqueId) {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                console.log('Message deleted');
-            }
-        };
-        xhttp.open("POST", "/quiz/"+uniqueId+'/delete/'+index, true);
-        xhttp.send();
-    }
-</script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
     integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
