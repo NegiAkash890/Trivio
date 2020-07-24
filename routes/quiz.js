@@ -116,8 +116,7 @@ router.post('/addQuestion/:id', isLoggedIn, cpUpload, function(req, res) {
 });
 
 //  To show the quiz details acc. to uniqueID.
-router.get('/:id', isLoggedIn, function(req, res) {
-    console.log(req.params.id);
+router.get('/score/:id', isLoggedIn, function(req, res) {
     Quiz.findOne({uniqueID: req.params.id}, function(err, quiz) {
         if(err || !quiz) {
             res.redirect('/quiz');
@@ -127,6 +126,18 @@ router.get('/:id', isLoggedIn, function(req, res) {
     });
 });
 
+//  To show the score of quiz acc. to uniqueID.
+router.get('/:id', isLoggedIn, function(req, res) {
+    Quiz.findOne({uniqueID: req.params.id}, function(err, quiz) {
+        if(err || !quiz) {
+            res.redirect('/quiz');
+        } else {
+            res.render('quiz/quizlayout', {quiz: quiz});
+        }
+    });
+});
+
+// To delete questions from quiz.
 router.post('/:id/delete/:idx', isLoggedIn, function(req, res) {
     Quiz.findOne({uniqueID: req.params.id}, function(err, quiz) {
         if(err || !quiz) {

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUIZ TIME</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="jumbotron p-2">
+        <h2 class="ml-4">Instructions</h2>
+        <ol>
+            <li class="text-muted">Read the below instructions carefully .</li>
+            <li class="text-muted">Check all the correct answers within the time-limit.</li>
+            <li class="text-muted">No Partial-Marking.</li>
+            <li class="text-muted">Click the next only if sure.</li>
+        </ol>
+    </div>
+    <div class="container d-flex justify-content-between align-items-center">
+        <p>TIME REMAINING :
+            <span id="time_rem">
+                <!--Insert the time value here so that js can read it-->
+            </span> s</p>
+        <!--Render the Question count using EJS / total number of the questions-->
+        <!--Or if rendering count is not possible just change the Question : to Question remaining for reverse count-->
+        <p id="qus_count">Question : <span id="current_question_count"></span><span>/</span><span id="total_questions"><%= quiz.questions.length %></span>
+        </p>
+    </div>
+    <div class="container">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <!--Render Questions using EJS only one questions at a time.-->
+                <span class="lead mr-4"><%= quiz.questions[0].question %></span>
+                <span class="badge badge-pill badge-secondary"><%= quiz.questions[0].points %> pts</span>
+            </div>
+            <div class="card-body">
+                <form id="question_form">
+                    <!--Options should also use EJS-->
+                    <div class="card p-3  form-check mb-2">
+                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" name='choice_1'>
+                        <label class="form-check-label" for="defaultCheck1">
+                            <%= quiz.questions[0].options[0].text %>
+                        </label>
+                    </div>
+                    <div class="card p-3 form-check mb-2">
+                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck2" name='choice_2'>
+                        <label class="form-check-label" for="defaultCheck2">
+                            <%= quiz.questions[0].options[1].text %>
+                        </label>
+                    </div>
+                    <div class="card p-3 form-check mb-2">
+                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck3" name='choice_3'>
+                        <label class="form-check-label" for="defaultCheck3">
+                            <%= quiz.questions[0].options[2].text %>
+                        </label>
+                    </div>
+                    <div class="card p-3 form-check mb-2">
+                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck4" name='choice_4'>
+                        <label class="form-check-label" for="defaultCheck4">
+                            <%= quiz.questions[0].options[3].text %>
+                        </label>
+                    </div>
+                    <div class="row d-flex justify-content-between mt-4">
+                        <button class="ml-3 btn btn-danger col-3 mr-1 " type="reset">RESET</button>
+                        <!--This should submit either on clicking the next button or on time limit completion-->
+                        <!--Then Again the page should be rendered to display the next question-->
+                        <!--END QUIZ SHOULD TAKE THE USER TO THE SCORE CARD PAGE-->
+                        <button class="col-3 btn btn-primary" type="submit">END QUIZ</button>
+                        <button id='next' class="mr-3 btn btn-success col-3 mr-1" type="submit">NEXT</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+    crossorigin="anonymous"></script>
+<script src="/js/quiztimer.js"></script>
+
+</html>
