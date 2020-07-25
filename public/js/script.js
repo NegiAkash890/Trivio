@@ -80,7 +80,7 @@ else {
     })
     var add = document.getElementById('add')
     var Question_Card = document.getElementById('question_card')
-    Question_Card.style.display = 'none'
+    // Question_Card.style.display = 'none'
     add.addEventListener('click', () => {
         Question_Card.style.display = 'flex'
     })

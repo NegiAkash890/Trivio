@@ -9,7 +9,8 @@
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="/css/style.css">    
+    <link rel="stylesheet" type="text/css" href="/css/style.css">  
+    <script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5f1c7d852e6e3400115049e9&product=inline-share-buttons" async="async"></script>
 </head>
 
 <body>
@@ -99,16 +100,27 @@
                                         <!--Card Description to be fetched from the Quiz info-->
                                         <%= quiz.description %>
                                     </div>
-                                    <strong>Author :</strong><span> <%= currentUser.firstName %></span>
+                                    <strong>Author :</strong><span> <%= currentUser.firstName %></span>  
+                                        
                                     <p class="text-right mt-4 lead">
                                         <!--Author to be fetched from Quiz Info-->
-                                        
-                                        <button onclick="shareQuiz('<%= quiz.uniqueID %>')" class="btn btn-primary"> Save Quiz</button>
+                                        <div class='shareable'>
+                                            <button class="btn btn-primary" id="share_button">
+                                                Share
+                                                <i class="ml-2 fa fa-share"></i>
+                                            </button>
+                                            <div class="mt-4 card pl-3 pt-3" id="share_creds">
+                                                <p>Link :<a href="localhost:8080/quiz/<%= quiz.uniqueID %>" id="share_link">Quiz</a></p>
+                                                <div class="sharethis-inline-share-buttons"></div>
+                                                <% if(quiz.isPwdProtected) { %>
+                                                    <p>Password :<span class="pass"><%= quiz.password %></span></p>
+                                                <% } %>
+                                            </div>
+                                        </div>  
                                     </p>
                                 </div>
                             </div>
-
-
+                            
                             <% if(quiz.questions.length != 0) { %>
                                 <% quiz.questions.forEach(function(ques, index){ %>
                                     <div class="col-12 mt-4">
@@ -296,25 +308,6 @@
                         </ul>
                     </div>
                 </div>
-                <!--As we have already created the quiz this share button
-                contains two data i.e Link which should be route to 
-                the page where search button is added for rendering the quizzes
-                .Link should render that specific quiz that we are sharing using 
-                the seach button search for the quiz using QUIZCODE.
-                Password rendered Using EJS
-                -->
-                <div class='shareable'>
-                    <button class="btn btn-primary" id="share_button">
-                        Share
-                        <i class="ml-2 fa fa-share"></i>
-                    </button>
-                    <div class="mt-4 card pl-3 pt-3" id="share_creds">
-                        <p>Link :<a href="#" id="share_link">
-                                <!--Link Here--></a></p>
-                        <p>Password :<span class="pass"></span></p>
-                    </div>
-                </div>
-
             </div>
             <div class="col-xl-3 text-center d-none d-md-none d-xl-flex " id="ad2">
                 Advertisement Here
