@@ -157,7 +157,9 @@ router.get('/attempt/:id/:idx', isLoggedIn, function(req, res) {
                     return obj.id == req.params.id;
                 }
                 var index = req.user.quizAttempted.findIndex(checkidx);
-                res.render('quiz/quizlayout', {question: quiz.questions[index], current: index, total: quiz.questions.length, id: quiz.uniqueID});
+                var quizIdx = req.user.quizAttempted[index].options.length;
+                if(quizIdx >= quiz.questions.length) res.redirect('/quiz/score/'+req.params.id);
+                res.render('quiz/quizlayout', {question: quiz.questions[quizIdx], current: quizIdx, total: quiz.questions.length, id: quiz.uniqueID});
             } else if(!quiz.isPwdProtected && req.user.quizAttempted.findIndex(findIdx) == -1) {
                 req.user.quizAttempted.push({id: quiz.uniqueID, score: 0, topic: quiz.topic});
                 req.user.save();
@@ -169,7 +171,9 @@ router.get('/attempt/:id/:idx', isLoggedIn, function(req, res) {
                     return obj.id == req.params.id;
                 }
                 var index = req.user.quizAttempted.findIndex(checkidx);
-                res.render('quiz/quizlayout', {question: quiz.questions[index], current: index, total: quiz.questions.length, id: quiz.uniqueID});
+                var quizIdx = req.user.quizAttempted[index].options.length;
+                if(quizIdx >= quiz.questions.length) res.redirect('/quiz/score/'+req.params.id);
+                res.render('quiz/quizlayout', {question: quiz.questions[quizIdx], current: quizIdx, total: quiz.questions.length, id: quiz.uniqueID});
             }
         }
     });
