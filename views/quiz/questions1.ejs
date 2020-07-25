@@ -45,7 +45,7 @@
     
     <div class="container-fluid" id='container'>
         <div class="row">
-            <div class="col-xl-3 text-center d-md-none d-xl-flex" id='ad1'>
+            <div class="col-xl-3 text-center d-none d-md-none d-xl-flex" id='ad1'>
                 Advertisement Here
             </div>
             <div class="col-xl-6 col-12">
@@ -296,8 +296,27 @@
                         </ul>
                     </div>
                 </div>
+                <!--As we have already created the quiz this share button
+                contains two data i.e Link which should be route to 
+                the page where search button is added for rendering the quizzes
+                .Link should render that specific quiz that we are sharing using 
+                the seach button search for the quiz using QUIZCODE.
+                Password rendered Using EJS
+                -->
+                <div class='shareable'>
+                    <button class="btn btn-primary" id="share_button">
+                        Share
+                        <i class="ml-2 fa fa-share"></i>
+                    </button>
+                    <div class="mt-4 card pl-3 pt-3" id="share_creds">
+                        <p>Link :<a href="#" id="share_link">
+                                <!--Link Here--></a></p>
+                        <p>Password :<span class="pass"></span></p>
+                    </div>
+                </div>
+
             </div>
-            <div class="col-xl-3 text-center d-md-none d-xl-flex " id="ad2">
+            <div class="col-xl-3 text-center d-none d-md-none d-xl-flex " id="ad2">
                 Advertisement Here
             </div>
         </div>
