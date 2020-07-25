@@ -11,6 +11,16 @@ const user2Schema = new mongoose.Schema ({
     quizCreated: [{
     	type: mongoose.Schema.Types.ObjectId,
         ref: "Quiz"
+    }],
+    quizAttempted: [{
+        id: String, 
+        topic: String, 
+        score: Number,
+        options: [{
+            ques: Number,
+            score: Number,
+            option: [Number]
+        }]
     }]
   });
   

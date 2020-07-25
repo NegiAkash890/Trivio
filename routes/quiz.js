@@ -45,7 +45,7 @@ router.post('/new', isLoggedIn, upload.single('quizImage'), function(req, res) {
     };
     if(req.body.isPwdProtected == '1') {
         quizObj.isPwdProtected  =   true,
-        quizObj.password        =   req.body.password;
+        quizObj.password        =   req.body.pwd;
     }
     quizObj["author"] = req.user;
     if(req.file) quizObj.image  = req.file.filename;
@@ -89,16 +89,20 @@ router.post('/addQuestion/:id', isLoggedIn, cpUpload, function(req, res) {
                 editorial   : req.body.editorial,
                 points      : req.body.points,
                 duration    : req.body.duration,
-                options     : []
+                options     : [],
+                answer      : []
             };
             for(var i=1; i<=4; i++) {
                 var options = {};
                 if(req.body['option'+i] != "") {
-                    options = {text: req.body['option'+i], isAnswer: req.body['option'+i+'answer'] == '' ? true : false};
+                    options = {text: req.body['option'+i]};
                 }
                 if(req.files && req.files['optionimg'] && req.files['optionimg'][i-1]) {
                     options['image'] = req.files['optionimg'][i-1].filename;
                 };
+                if(req.body['option'+i+'answer'] == '' ? true : false) {
+                    question.answer.push (i);
+                }
                 question.options.push(options);
             }
             if(req.files && req.files['quesimg'] && req.files['quesimg'][0]) {
@@ -115,24 +119,127 @@ router.post('/addQuestion/:id', isLoggedIn, cpUpload, function(req, res) {
     });
 });
 
+// To attempt the quiz.
+router.get('/:id', isLoggedIn, function(req, res) {
+    Quiz.findOne({uniqueID: req.params.id}, function(err, quiz) {
+        if(err || !quiz) {
+            res.redirect('/quiz');
+        } else {
+            res.render('quiz/attemptQuiz', {quiz: quiz});
+        }
+    });
+});
+
+//  To play the quiz acc. to uniqueID.
+router.get('/attempt/:id/:idx', isLoggedIn, function(req, res) {
+    Quiz.findOne({uniqueID: req.params.id}, function(err, quiz) {
+        var idx = parseInt(req.params.idx);
+        if(err || !quiz) {
+            res.redirect('/quiz');
+        } else if(idx>=quiz.questions.length) {
+            res.redirect('/quiz/score/'+req.params.id);
+        } else {
+            function findIdx(obj) {
+                return obj.id == quiz.uniqueID;
+            }
+            if(quiz.isPwdProtected && req.user.quizAttempted.findIndex(findIdx) == -1) {
+                if(quiz.password == req.query.pwd) {
+                    req.user.quizAttempted.push({id: quiz.uniqueID, score: 0, topic: quiz.topic});
+                    req.user.save();  
+                    quiz.leaderBoard.push({name: req.user.firstName, score: 0});
+                    quiz.save();
+                    res.render('quiz/quizlayout', {question: quiz.questions[0], current: 0, total: quiz.questions.length, id: quiz.uniqueID});
+                } else {
+                    res.redirect('/quiz/'+req.params.id);
+                }
+            } else if(quiz.isPwdProtected && req.user.quizAttempted.findIndex(findIdx) != -1) {
+                function checkidx(obj) {
+                    return obj.id == req.params.id;
+                }
+                var index = req.user.quizAttempted.findIndex(checkidx);
+                res.render('quiz/quizlayout', {question: quiz.questions[index], current: index, total: quiz.questions.length, id: quiz.uniqueID});
+            } else if(!quiz.isPwdProtected && req.user.quizAttempted.findIndex(findIdx) == -1) {
+                req.user.quizAttempted.push({id: quiz.uniqueID, score: 0, topic: quiz.topic});
+                req.user.save();
+                quiz.leaderBoard.push({name: req.user.firstName, score: 0});
+                quiz.save();
+                res.render('quiz/quizlayout', {question: quiz.questions[0], current: 0, total: quiz.questions.length, id: quiz.uniqueID});
+            } else {
+                function checkidx(obj) {
+                    return obj.id == req.params.id;
+                }
+                var index = req.user.quizAttempted.findIndex(checkidx);
+                res.render('quiz/quizlayout', {question: quiz.questions[index], current: index, total: quiz.questions.length, id: quiz.uniqueID});
+            }
+        }
+    });
+});
+
+
+router.post('/attempt/:id/:idx', isLoggedIn, function(req, res) {
+    Quiz.findOne({uniqueID: req.params.id}, function(err, quiz) {
+        var idx = parseInt(req.params.idx);
+        if(err || !quiz) {
+            console.log(req.params.id);
+            res.redirect('/quiz');
+        } else if(idx>quiz.questions.length) {
+            res.redirect('/quiz/score'+req.params.id);
+        } else {
+            function checkidx(obj) {
+                return obj.id == req.params.id;
+              }
+            var index = req.user.quizAttempted.findIndex(checkidx);
+            var options = [];
+            for(var i=0; i<4; i++) {
+                if(req.body['option'+i] == '') {
+                    options.push(i+1);
+                }
+            }
+            var Score = 0;
+            var value = quiz.questions[idx-1].points/quiz.questions[idx-1].answer.length;
+            for(var i=0; i<options.length; i++) {
+                if(quiz.questions[idx-1].answer.includes(options[i])) {
+                    Score++;
+                }
+            }
+            if(Score == quiz.questions[idx-1].answer.length) {
+                Score = quiz.questions[idx-1].points;
+            } else {
+                Score = Score*value;
+            }
+            req.user.quizAttempted[index].score += Score;
+            req.user.quizAttempted[index].options.push({ques: idx-1, option: options, score: Score});
+            req.user.save();
+            function checkquizidx(quiz) {
+                return quiz.name == req.user.firstName;
+            }
+            var quizIndex = quiz.leaderBoard.findIndex(checkquizidx);
+            quiz.leaderBoard[quizIndex].score = Score;
+            quiz.save();
+            if(idx == quiz.questions.length) {
+                res.redirect('/quiz/score/'+req.params.id);
+            } else {
+                res.render('quiz/quizlayout', {question: quiz.questions[idx], current: idx, total: quiz.questions.length, id:quiz.uniqueID});
+            }
+        }
+    });
+});
+
 //  To show the quiz details acc. to uniqueID.
 router.get('/score/:id', isLoggedIn, function(req, res) {
     Quiz.findOne({uniqueID: req.params.id}, function(err, quiz) {
         if(err || !quiz) {
             res.redirect('/quiz');
         } else {
-            res.render('quiz/scores', {quiz: quiz});
-        }
-    });
-});
-
-//  To show the score of quiz acc. to uniqueID.
-router.get('/:id', isLoggedIn, function(req, res) {
-    Quiz.findOne({uniqueID: req.params.id}, function(err, quiz) {
-        if(err || !quiz) {
-            res.redirect('/quiz');
-        } else {
-            res.render('quiz/quizlayout', {quiz: quiz});
+            function checkidx(obj) {
+                return obj.id == req.params.id;
+            }
+            var index = req.user.quizAttempted.findIndex(checkidx);
+            if(index != -1) {
+                res.render('quiz/scores', {quiz: quiz, response: req.user.quizAttempted[index]});
+            } else {
+                res.redirect('/quiz/leaderboard/'+req.params.id, {quiz: quiz});
+            }
         }
     });
 });

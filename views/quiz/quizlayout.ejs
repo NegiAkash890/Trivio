@@ -22,49 +22,33 @@
         </ol>
     </div>
     <div class="container d-flex justify-content-between align-items-center">
-        <p>TIME REMAINING :
-            <span id="time_rem">
-                <!--Insert the time value here so that js can read it-->
-            </span> s</p>
+        <p>TIME REMAINING : <span id="time_rem"><%= question.duration %></span> s</p>
         <!--Render the Question count using EJS / total number of the questions-->
         <!--Or if rendering count is not possible just change the Question : to Question remaining for reverse count-->
-        <p id="qus_count">Question : <span id="current_question_count"></span><span>/</span><span id="total_questions"><%= quiz.questions.length %></span>
+        <p id="qus_count">Question : <span id="current_question_count"><%= current+1 %></span><span>/</span><span id="total_questions"><%= total %></span>
         </p>
     </div>
     <div class="container">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <!--Render Questions using EJS only one questions at a time.-->
-                <span class="lead mr-4"><%= quiz.questions[0].question %></span>
-                <span class="badge badge-pill badge-secondary"><%= quiz.questions[0].points %> pts</span>
+                <span class="lead mr-4"><%= question.question %></span>
+                <span class="badge badge-pill badge-secondary"><%= question.points %> pts</span>
             </div>
             <div class="card-body">
-                <form id="question_form">
+                <form id="question_form" method="POST" action="/quiz/attempt/<%= id %>/<%= current+1 %>">
                     <!--Options should also use EJS-->
-                    <div class="card p-3  form-check mb-2">
-                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" name='choice_1'>
-                        <label class="form-check-label" for="defaultCheck1">
-                            <%= quiz.questions[0].options[0].text %>
-                        </label>
-                    </div>
-                    <div class="card p-3 form-check mb-2">
-                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck2" name='choice_2'>
-                        <label class="form-check-label" for="defaultCheck2">
-                            <%= quiz.questions[0].options[1].text %>
-                        </label>
-                    </div>
-                    <div class="card p-3 form-check mb-2">
-                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck3" name='choice_3'>
-                        <label class="form-check-label" for="defaultCheck3">
-                            <%= quiz.questions[0].options[2].text %>
-                        </label>
-                    </div>
-                    <div class="card p-3 form-check mb-2">
-                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck4" name='choice_4'>
-                        <label class="form-check-label" for="defaultCheck4">
-                            <%= quiz.questions[0].options[3].text %>
-                        </label>
-                    </div>
+                    <% question.options.forEach(function(option, index) { %>
+                        <div class="card p-3  form-check mb-2">
+                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" name='<%= "option"+index %>'>
+                            <label class="form-check-label" for="defaultCheck1">
+                                <%= option.text %>
+                                <% if(option.image) { %>
+                                    <img href="/images/<%= option.image %>" height="80px" width="100px"/>
+                                <% } %>
+                            </label>
+                        </div>
+                    <% }) %>
                     <div class="row d-flex justify-content-between mt-4">
                         <button class="ml-3 btn btn-danger col-3 mr-1 " type="reset">RESET</button>
                         <!--This should submit either on clicking the next button or on time limit completion-->

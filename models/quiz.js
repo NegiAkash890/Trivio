@@ -12,9 +12,9 @@ var quizSchema                  =   new mongoose.Schema({
         image       : String,
         options     : [{
             image   : String,
-            text    : String,
-            isAnswer: Boolean
+            text    : String
         }],
+        answer      : [Number],
         editorial   : String,
         points      : Number,
         duration    : Number
@@ -26,7 +26,11 @@ var quizSchema                  =   new mongoose.Schema({
     totalPoints : Number,
     totalDuration : Number,
     isPwdProtected : Boolean,
-    password    : String
+    password    : String,
+    leaderBoard : [{
+        name    : String,
+        score   : Number
+    }]
 });
 
 module.exports  =   mongoose.model('Quiz', quizSchema);

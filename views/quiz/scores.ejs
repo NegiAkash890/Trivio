@@ -24,10 +24,10 @@
         <div class="ml-md-4 collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <i class="d-md-block ml-2 fa fa-home"></i></a>
+                    <a class="nav-link" href="/">Home <i class="d-md-block ml-2 fa fa-home"></i></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./questions.html">My Quiz <i
+                    <a class="nav-link" href="/dashboard">My Quiz <i
                             class="d-md-block ml-2 fa fa-motorcycle"></i></a>
                 </li>
                 <li class="nav-item">
@@ -52,13 +52,12 @@
                     <h2>Score Card <span class="ml-3 fa fa-id-card"></span></h2>
                 </div>
                 <div class="card">
-                    
                     <% if(quiz.questions.length > 0) { %>
-                        <% quiz.questions.forEach(function(question) { %>
+                        <% quiz.questions.forEach(function(question, index) { %>
                             <div class="card">
                                 <div class="card-header d-flex justify-content-between align-items-center">
                                     <h3 name="render-question"><%= question.question %></h3>
-                                    <p class="badge badge-pill badge-primary" name='render_points'><%= question.points %> pts</p>
+                                    <p class="badge badge-pill badge-primary" name='render_points'><%= response.options[index].score %>/<%= question.points %> pts</p>
                                 </div>
                                 <% if(question.image) { %>
                                     <img src="/images/<%= question.image %>" style="margin: 0 auto;" class='img' width="250px" height="200px">
@@ -68,9 +67,11 @@
                                 <!--Also use conditional rendering to change the icon right/wrong according to the user choice-->
                                 <div class="card-body">
                                     
-                                    <% question.options.forEach(function(option) { %>
-                                        <% if(option.isAnswer) { %>
+                                    <% question.options.forEach(function(option, idx) { %>
+                                        <% if(response.options[index].option.includes(idx+1) && question.answer.includes(idx+1)) { %>
                                             <div class="mb-2 card p-2 bg-secondary text-light">
+                                        <% } else if(response.options[index].option.includes(idx+1) && !question.answer.includes(idx+1)) { %>
+                                            <div class="mb-2 card p-2 bg-danger text-light">
                                         <% } else { %>
                                             <div class="mb-2 card p-2">
                                         <% } %>
@@ -81,12 +82,12 @@
                                                     <img src="/images/<%= option.image %>" class='img' width="70px" height="50px">
                                                 <% } %>
                                                 </span>
-                                                <% if(option.isAnswer) { %>
+                                                <% if(question.answer.includes(idx+1)) { %>
                                                     <span class="ml-4 fa fa-2x fa-check-circle"></span>
+                                                <% } else if(response.options[index].option.includes(idx+1)) { %>
+                                                    <span class="ml-4 fa fa-2x fa-times-circle"></span>
                                                 <% } %>
-                                            </p>
-                                            
-                                            
+                                            </p>   
                                         </div>
                                     <% }) %>
     
@@ -108,13 +109,16 @@
         </div>
         <div class="mt-4 container p-3 card">
             <div class="col-12  d-flex flex-column justify-content-center align-items-center">
-                <h2 class="border-bottom border-bottom-dark">CONGRATULATIONS</h2><br>
+                <h2 class="border-bottom border-bottom-dark"></h2><br>
                 <h4 class="border-bottom border-bottom-dark">
                     YOUR SCORE :
-                    <span name="scores_marks">10</span>
+                    <span name="scores_marks"><%= response.score%></span>
                     /
                     <span name='total_marks'><%= quiz.totalPoints %></span>
                 </h4>
+            </div>
+            <div class="alert alert-success text-center">
+                <a href="/quiz/Leaderboard/<%= quiz.uniqueID %>"><h2>Check Leaderboard<span class="ml-3 fa fa-id-card"></span></h2></a>
             </div>
         </div>
     </div>

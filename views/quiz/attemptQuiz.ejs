@@ -1,0 +1,80 @@
+<%- include('../partials/header') %>
+
+<div class="jumbotron centered">
+  <div class="container">
+    <div class="card">
+        <div class="card-header">
+            <div class="card-img-top d-flex justify-content-center align-items-center">
+                <% if(quiz.image != "") { %>
+                    <img src="/images/<%= quiz.image %>" class='img' width="100px" height="150px">
+                <% } else { %>
+                <!--If no picture is provided use this as defalut-->
+                <img src="./images/gallery.png" class='img' width="100px" height="150px">
+                <% } %>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="card-title">
+                <div class="">
+                    <!--Card Title to be fetched from the Quiz info-->
+                    <strong>Topic</strong> - <%= quiz.topic %>
+                    <!--Quiz code to be fetched from the Quiz info-->
+                    <br>
+                    <strong>Code - </strong><span class="quiz-code badge badge-pill badge-danger ml-3"><%= quiz.uniqueID %></span>
+                </div>
+                <div>
+                    <strong>Total Points - </strong><%= quiz.totalPoints %>
+                    <br>
+                    <strong>Duration - </strong><%= parseInt(quiz.totalDuration/60) + " minutes, " + quiz.totalDuration%60 + " seconds" %>
+                </div>
+                <div>
+                    <strong>Quiz Start Date - </strong><%= quiz.date.toLocaleString() %>
+                    <br>
+                    <strong>Quiz End Date - </strong><%= quiz.endDate.toLocaleString() %>
+                </div>
+            </div>
+            <div class="card-description">
+                <strong>Description - </strong>
+                <!--Card Description to be fetched from the Quiz info-->
+                <%= quiz.description %>
+            </div>
+            <strong>Author :</strong><span> <%= currentUser.firstName %></span>
+            <% if((new Date(quiz.date) < new Date()) && (new Date(quiz.endDate > new Date()))) { %>
+                <% if(quiz.isPwdProtected) { %>
+                    <br>
+                    <p><strong>This quiz is password protected.</strong></p>
+                    <form action="/quiz/attempt/<%= quiz.uniqueID %>/0" method="GET">
+                        <input type="password" class="col-5 col-sm-6 col-md-5 form-control form-control-lg mb-2 mr-1"
+                            id="pwd" placeholder="Password" name='pwd' required>
+                        <button class="btn btn-dark btn-lg" type="submit">Join</a>
+                    </form>
+                <% } else { %>
+                    <p class="text-right mt-4 lead">
+                        <a class="btn btn-dark btn-lg" href="/quiz/attempt/<%= quiz.uniqueID %>/0" role="button">JOIN</a>
+                        <a class="btn btn-light btn-lg" href="/quiz" role="button">Cancel</a>
+                    </p>
+                <% } %>
+            <% } else if(new Date(quiz.date) > new Date()) { %>
+                <br>
+                <strong>You are early, quiz hasn't started.</strong>
+                <p class="text-right mt-4 lead">    
+                    <a class="btn btn-light btn-lg" href="/quiz" role="button">Cancel</a>
+                </p>
+            <% } if(new Date(quiz.endDate) < new Date()) { %>
+                <br>
+                <strong>You are late, quiz is over</strong>
+                <p class="text-right mt-4 lead">
+                    <a class="btn btn-light btn-lg" href="/quiz" role="button">Cancel</a>
+                </p>
+            <% } %>
+            
+        </div>
+    </div>
+
+    <hr>
+    
+
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

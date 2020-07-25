@@ -9,7 +9,7 @@
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">    
 </head>
 
 <body>
@@ -42,6 +42,7 @@
             </ul>
         </div>
     </nav>
+    
     <div class="container-fluid" id='container'>
         <div class="row">
             <div class="col-xl-3 text-center d-md-none d-xl-flex" id='ad1'>
@@ -62,16 +63,14 @@
                     <!-- Render Question Here using EJS-->
                     <div class="col-12 mt-4">
                         <div class="alert alert-dismissible card p-0">
-                            
-                            
                             <div class="card">
                                 <div class="card-header">
                                     <div class="card-img-top d-flex justify-content-center align-items-center">
-                                        <% if(quiz.image != "") { %>
+                                        <% if(quiz.image) { %>
                                             <img src="/images/<%= quiz.image %>" class='img' width="100px" height="150px">
                                         <% } else { %>
                                         <!--If no picture is provided use this as defalut-->
-                                        <img src="./images/gallery.png" class='img' width="100px" height="150px">
+                                        <img src="/images/gallery.png" class='img' width="100px" height="150px">
                                         <% } %>
                                     </div>
                                 </div>
@@ -100,9 +99,11 @@
                                         <!--Card Description to be fetched from the Quiz info-->
                                         <%= quiz.description %>
                                     </div>
+                                    <strong>Author :</strong><span> <%= currentUser.firstName %></span>
                                     <p class="text-right mt-4 lead">
                                         <!--Author to be fetched from Quiz Info-->
-                                        Author :<span> <%= currentUser.firstName %></span>
+                                        
+                                        <button onclick="shareQuiz('<%= quiz.uniqueID %>')" class="btn btn-primary"> Save Quiz</button>
                                     </p>
                                 </div>
                             </div>
@@ -117,20 +118,20 @@
                                             </div>
                                             <div class="card-body">
                                                 <div class="card-img-top d-flex justify-content-center align-items-center">
-                                                    <% if(ques.image != "") { %>
+                                                    <% if(ques.image) { %>
                                                         <img src="/images/<%= ques.image %>" class='img' width="250px" height="200px">
                                                     <% } %>
                                                 </div>
                                                 <div class="col-12 mt-4">
                                                     <ul>
-                                                        <% ques.options.forEach(function(option) { %>
+                                                        <% ques.options.forEach(function(option, index) { %>
                                                             <li>
                                                                 <%= option.text %>
                                                                 <% if(option.image) { %>
                                                                     <img src="/images/<%= option.image %>" class='img' width="70px" height="50px">
                                                                 <% } %>
                                                                 
-                                                                <% if(option.isAnswer) { %>
+                                                                <% if(ques.answer.includes(index+1)) { %>
                                                                     <i class="fa fa-check-circle" aria-hidden="true"></i>
                                                                 <% } %> 
                                                             </li>
