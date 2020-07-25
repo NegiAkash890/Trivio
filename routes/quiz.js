@@ -142,9 +142,24 @@ router.get('/attempt/:id/:idx', isLoggedIn, function(req, res) {
             function findIdx(obj) {
                 return obj.id == quiz.uniqueID;
             }
+
+            //Shuffling questions
+            var options = [];
+            var currentIndex = quiz.questions.length, temporaryValue, randomIndex;
+            for(var i=0; i<currentIndex; i++) {
+                options.push({ques: i, score: 0, option: []});
+            }
+            while (0 !== currentIndex) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex -= 1;
+                temporaryValue = options[currentIndex];
+                options[currentIndex] = options[randomIndex];
+                options[randomIndex] = temporaryValue;
+            }
+
             if(quiz.isPwdProtected && req.user.quizAttempted.findIndex(findIdx) == -1) {
                 if(quiz.password == req.query.pwd) {
-                    req.user.quizAttempted.push({id: quiz.uniqueID, score: 0, topic: quiz.topic});
+                    req.user.quizAttempted.push({id: quiz.uniqueID, score: 0, topic: quiz.topic, options: options, quesAttempt: 1});
                     req.user.save();  
                     quiz.leaderBoard.push({name: req.user.firstName, score: 0});
                     quiz.save();
@@ -157,11 +172,11 @@ router.get('/attempt/:id/:idx', isLoggedIn, function(req, res) {
                     return obj.id == req.params.id;
                 }
                 var index = req.user.quizAttempted.findIndex(checkidx);
-                var quizIdx = req.user.quizAttempted[index].options.length;
+                var quizIdx = req.user.quizAttempted[index].quesAttempt;
                 if(quizIdx >= quiz.questions.length) res.redirect('/quiz/score/'+req.params.id);
                 res.render('quiz/quizlayout', {question: quiz.questions[quizIdx], current: quizIdx, total: quiz.questions.length, id: quiz.uniqueID});
             } else if(!quiz.isPwdProtected && req.user.quizAttempted.findIndex(findIdx) == -1) {
-                req.user.quizAttempted.push({id: quiz.uniqueID, score: 0, topic: quiz.topic});
+                req.user.quizAttempted.push({id: quiz.uniqueID, score: 0, topic: quiz.topic, options: options, quesAttempt: 1});
                 req.user.save();
                 quiz.leaderBoard.push({name: req.user.firstName, score: 0});
                 quiz.save();
@@ -171,7 +186,7 @@ router.get('/attempt/:id/:idx', isLoggedIn, function(req, res) {
                     return obj.id == req.params.id;
                 }
                 var index = req.user.quizAttempted.findIndex(checkidx);
-                var quizIdx = req.user.quizAttempted[index].options.length;
+                var quizIdx = req.user.quizAttempted[index].quesAttempt;
                 if(quizIdx >= quiz.questions.length) res.redirect('/quiz/score/'+req.params.id);
                 res.render('quiz/quizlayout', {question: quiz.questions[quizIdx], current: quizIdx, total: quiz.questions.length, id: quiz.uniqueID});
             }
@@ -191,7 +206,7 @@ router.post('/attempt/:id/:idx', isLoggedIn, function(req, res) {
         } else {
             function checkidx(obj) {
                 return obj.id == req.params.id;
-              }
+            }
             var index = req.user.quizAttempted.findIndex(checkidx);
             var options = [];
             for(var i=0; i<4; i++) {
@@ -200,30 +215,32 @@ router.post('/attempt/:id/:idx', isLoggedIn, function(req, res) {
                 }
             }
             var Score = 0;
-            var value = quiz.questions[idx-1].points/quiz.questions[idx-1].answer.length;
+            var value = quiz.questions[req.user.quizAttempted[index].options[idx-1].ques].points/quiz.questions[req.user.quizAttempted[index].options[idx-1].ques].answer.length;
             for(var i=0; i<options.length; i++) {
-                if(quiz.questions[idx-1].answer.includes(options[i])) {
+                if(quiz.questions[req.user.quizAttempted[index].options[idx-1].ques].answer.includes(options[i])) {
                     Score++;
                 }
             }
-            if(Score == quiz.questions[idx-1].answer.length) {
-                Score = quiz.questions[idx-1].points;
+            if(Score == quiz.questions[req.user.quizAttempted[index].options[idx-1].ques].answer.length) {
+                Score = quiz.questions[req.user.quizAttempted[index].options[idx-1].ques].points;
             } else {
                 Score = Score*value;
             }
             req.user.quizAttempted[index].score += Score;
-            req.user.quizAttempted[index].options.push({ques: idx-1, option: options, score: Score});
+            req.user.quizAttempted[index].options[idx-1].score = Score;
+            req.user.quizAttempted[index].options[idx-1].option = options;
+            req.user.quizAttempted[index].quesAttempt += 1;
             req.user.save();
             function checkquizidx(quiz) {
                 return quiz.name == req.user.firstName;
             }
             var quizIndex = quiz.leaderBoard.findIndex(checkquizidx);
-            quiz.leaderBoard[quizIndex].score = Score;
+            quiz.leaderBoard[quizIndex].score += Score;
             quiz.save();
             if(idx == quiz.questions.length) {
                 res.redirect('/quiz/score/'+req.params.id);
             } else {
-                res.render('quiz/quizlayout', {question: quiz.questions[idx], current: idx, total: quiz.questions.length, id:quiz.uniqueID});
+                res.render('quiz/quizlayout', {question: quiz.questions[req.user.quizAttempted[index].options[idx].ques], current: idx, total: quiz.questions.length, id:quiz.uniqueID});
             }
         }
     });

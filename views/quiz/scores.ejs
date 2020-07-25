@@ -49,28 +49,31 @@
             </div>
             <div class="col-xl-8">
                 <div class="alert alert-success text-center">
-                    <h2>Score Card <span class="ml-3 fa fa-id-card"></span></h2>
+                    <h2>Score - ( 
+                        <span name="scores_marks"><%= response.score %></span>
+                        /
+                        <span name='total_marks'><%= quiz.totalPoints %></span>
+                        ) - <%= (response.score/quiz.totalPoints)*100 %> %
+                    </h2>
+                    <br>
+                    <a href="/quiz/Leaderboard/<%= quiz.uniqueID %>"><strong style="color: brown">Check Leaderboard<span class="ml-3 fa fa-id-card"></span></strong></a>
                 </div>
                 <div class="card">
                     <% if(quiz.questions.length > 0) { %>
-                        <% quiz.questions.forEach(function(question, index) { %>
+                        <% response.options.forEach(function(userOption, index) { %>
                             <div class="card">
                                 <div class="card-header d-flex justify-content-between align-items-center">
-                                    <h3 name="render-question"><%= question.question %></h3>
-                                    <p class="badge badge-pill badge-primary" name='render_points'><%= response.options[index].score %>/<%= question.points %> pts</p>
+                                    <h3 name="render-question"><%= quiz.questions[userOption.ques].question %></h3>
+                                    <p class="badge badge-pill badge-primary" name='render_points'><%= userOption.score %>/<%= quiz.questions[userOption.ques].points %> pts</p>
                                 </div>
-                                <% if(question.image) { %>
-                                    <img src="/images/<%= question.image %>" style="margin: 0 auto;" class='img' width="250px" height="200px">
+                                <% if(quiz.questions[userOption.ques].image) { %>
+                                    <img src="/images/<%= quiz.questions[userOption.ques].image %>" style="margin: 0 auto;" class='img' width="250px" height="200px">
                                 <% } %>
-                                <!--Note for this part use conditional rendering for the tick/cross icon to display whether choice is correct or not-->
-                                <!--Only user response should change the background color to indicate his/her choice-->
-                                <!--Also use conditional rendering to change the icon right/wrong according to the user choice-->
                                 <div class="card-body">
-                                    
-                                    <% question.options.forEach(function(option, idx) { %>
-                                        <% if(response.options[index].option.includes(idx+1) && question.answer.includes(idx+1)) { %>
+                                    <% quiz.questions[userOption.ques].options.forEach(function(option, idx) { %>
+                                        <% if(userOption.option.includes(idx+1) && quiz.questions[userOption.ques].answer.includes(idx+1) ) { %>
                                             <div class="mb-2 card p-2 bg-secondary text-light">
-                                        <% } else if(response.options[index].option.includes(idx+1) && !question.answer.includes(idx+1)) { %>
+                                        <% } else if(userOption.option.includes(idx+1) && !quiz.questions[userOption.ques].answer.includes(idx+1)) { %>
                                             <div class="mb-2 card p-2 bg-danger text-light">
                                         <% } else { %>
                                             <div class="mb-2 card p-2">
@@ -82,9 +85,9 @@
                                                     <img src="/images/<%= option.image %>" class='img' width="70px" height="50px">
                                                 <% } %>
                                                 </span>
-                                                <% if(question.answer.includes(idx+1)) { %>
+                                                <% if(quiz.questions[userOption.ques].answer.includes(idx+1)) { %>
                                                     <span class="ml-4 fa fa-2x fa-check-circle"></span>
-                                                <% } else if(response.options[index].option.includes(idx+1)) { %>
+                                                <% } else if(userOption.option.includes(idx+1) && !quiz.questions[userOption.ques].answer.includes(idx+1)) { %>
                                                     <span class="ml-4 fa fa-2x fa-times-circle"></span>
                                                 <% } %>
                                             </p>   
@@ -93,10 +96,8 @@
     
                                 </div>
                             </div>
-                        <!--NEW CHANGES-->
-                        <!--Description(if there bcuz it's optional) + correct Answer Here(Mandatory All correct Answers).-->
                         <div class="card-footer">
-                            <p class="mt-2 text-muted">Editorial - <span id="description"><%= question.editorial %></span></p>
+                            <p class="mt-2 text-muted">Editorial - <span id="description"><%= quiz.questions[userOption.ques].editorial %></span></p>
                         </div>
                         <!---->
                         <% }) %>
@@ -105,20 +106,6 @@
             </div>
             <div class="d-none d-xl-flex col-xl-2">
                 Adverstisement
-            </div>
-        </div>
-        <div class="mt-4 container p-3 card">
-            <div class="col-12  d-flex flex-column justify-content-center align-items-center">
-                <h2 class="border-bottom border-bottom-dark"></h2><br>
-                <h4 class="border-bottom border-bottom-dark">
-                    YOUR SCORE :
-                    <span name="scores_marks"><%= response.score%></span>
-                    /
-                    <span name='total_marks'><%= quiz.totalPoints %></span>
-                </h4>
-            </div>
-            <div class="alert alert-success text-center">
-                <a href="/quiz/Leaderboard/<%= quiz.uniqueID %>"><h2>Check Leaderboard<span class="ml-3 fa fa-id-card"></span></h2></a>
             </div>
         </div>
     </div>

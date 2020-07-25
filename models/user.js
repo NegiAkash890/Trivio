@@ -16,6 +16,7 @@ const user2Schema = new mongoose.Schema ({
         id: String, 
         topic: String, 
         score: Number,
+        quesAttempt: Number,
         options: [{
             ques: Number,
             score: Number,
