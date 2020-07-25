@@ -71,9 +71,16 @@ if (document.title == 'QUIZ DASHBOARD') {
 
 }
 else {
+    var share_creds = document.getElementById('share_creds')
+    share_creds.style.display = 'none'
+    var share_link = document.getElementById('share_link')
+    var share_button = document.getElementById('share_button')
+    share_button.addEventListener('click', () => {
+        share_creds.style.display = 'block'
+    })
     var add = document.getElementById('add')
     var Question_Card = document.getElementById('question_card')
-    // Question_Card.style.display = 'none'
+    Question_Card.style.display = 'none'
     add.addEventListener('click', () => {
         Question_Card.style.display = 'flex'
     })
