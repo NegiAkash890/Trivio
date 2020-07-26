@@ -27,8 +27,7 @@
                     <a class="nav-link" href="/">Home <i class="d-md-block ml-2 fa fa-home"></i></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/quiz">My Quiz <i
-                            class="d-md-block ml-2 fa fa-motorcycle"></i></a>
+                    <a class="nav-link" href="/quiz">My Quiz <i class="d-md-block ml-2 fa fa-motorcycle"></i></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">FAQ<i class="d-md-block ml-2 fa fa-sticky-note"></i></a>
@@ -46,7 +45,8 @@
         <div class="input-group mb-3">
             <!--This search show fetch all the quizzes in our database as we have not set any
             visibility on Quizzes-->
-            <input type="text" class="form-control form-control-lg" id="searchID" name="searchID" placeholder="Join By Code ..">
+            <input type="text" class="form-control form-control-lg" id="searchID" name="searchID"
+                placeholder="Join By Code ..">
             <div class="input-group-append">
                 <button class="btn btn-danger" onclick="joinquiz()" type="submit">JOIN</button>
             </div>
@@ -54,48 +54,50 @@
         <!--Note Use EJS wherever necessary-->
         <div class="cards">
             <div class="row">
-                
+
                 <% if(quizzes.length > 0) { %>
-                    <% quizzes.forEach(function(quiz) { %>
-                        <div class="col-12 col-sm-6 col-md-4 mb-3">
-                            <div class="card">
-                                <div class="card-header">
-                                    <div class="card-img-top d-flex justify-content-center align-items-center">
-                                        <% if(quiz.image != "") { %>
-                                            <img src="/images/<%= quiz.image %>" class='img' width="100px" height="150px">
-                                        <% } else { %>
-                                        <!--If no picture is provided use this as defalut-->
-                                        <img src="./images/gallery.png" class='img' width="100px" height="150px">
-                                        <% } %>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="card-title">
-                                        <!--Card Title to be fetched from the Quiz info-->
-                                        <%= quiz.topic %>
-                                        <!--Quiz code to be fetched from the Quiz info-->
-                                        <span class="quiz-code badge badge-pill badge-danger ml-3"><%= quiz.uniqueID %></span>
-                                    </div>
-                                    <div class="card-description">
-                                        <h3>Description</h3>
-                                        <!--Card Description to be fetched from the Quiz info-->
-                                        <%= quiz.description %>
-                                    </div>
-                                    <p class="text-right mt-4 lead">
-                                        <!--Author to be fetched from Quiz Info-->
-                                        Author :<span> <%= quiz.author.firstName %></span>
-                                    </p>
-                                </div>
-                                <div class="card-footer">
-                                    <a href="/quiz/<%= quiz.uniqueID %>"><button class='btn btn-primary'>Join</button></a>
-                                </div>
+                <% quizzes.forEach(function(quiz) { %>
+                <div class="col-12 col-sm-6 col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-img-top d-flex justify-content-center align-items-center">
+                                <% if(quiz.image != "") { %>
+                                <img src="/images/<%= quiz.image %>" class='img' width="150px" height="150px">
+                                <% } else { %>
+                                <!--If no picture is provided use this as defalut-->
+                                <img src="./images/gallery.png" class='img' width="150px" height="150px">
+                                <% } %>
                             </div>
                         </div>
-                    <% }) %>
-                <% } %>
+                        <div class="card-body d-flex flex-column justify-content-between" style="min-height: 300px;">
+                            <div class="card-title">
+                                <!--Card Title to be fetched from the Quiz info-->
+                                <%= quiz.topic %>
+                                <!--Quiz code to be fetched from the Quiz info-->
+                                <span class="quiz-code badge badge-pill badge-danger ml-3"><%= quiz.uniqueID %></span>
+                            </div>
+                            <div class="card-description" style="min-height: 100px;">
+                                <h3 class="border-bottom pb-1">Description</h3>
+                                <!--Card Description to be fetched from the Quiz info-->
+                                <p class="mt-3"><%= quiz.description %></p>
+                            </div>
+                            <p class="lead pt-2 d-flex align-items-center p-2">
+                                <!--Author to be fetched from Quiz Info-->
+                            <p class="border-top text-right">
+                                Author :<span> <%= quiz.author.firstName %></span>
+                            </p>
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="/quiz/<%= quiz.uniqueID %>"><button class='btn btn-primary'>Join</button></a>
+                        </div>
+                    </div>
                 </div>
+                <% }) %>
+                <% } %>
             </div>
         </div>
+    </div>
     </div>
     <footer class='container-fluid col-12' id="footer">
         <ul id="footer-links">
@@ -116,8 +118,8 @@
 <script>
     function joinquiz() {
         var id = document.getElementById('searchID').value;
-        if(id && id!="") {
-            window.location = "/quiz/"+id;
+        if (id && id != "") {
+            window.location = "/quiz/" + id;
         }
     }
 </script>
