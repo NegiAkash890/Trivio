@@ -263,6 +263,26 @@ router.get('/score/:id', isLoggedIn, function(req, res) {
     });
 });
 
+//  To show the quiz details acc. to uniqueID.
+router.get('/leaderboard/:id', function(req, res) {
+    Quiz.findOne({uniqueID: req.params.id}, function(err, quiz) {
+        if(err || !quiz) {
+            res.redirect('/quiz');
+        } else {
+            function checkidx(obj) {
+                return obj.id == req.params.id;
+            }
+            var index = -1;
+            if(req.user) {
+                index = req.user.quizAttempted.findIndex(checkidx);
+            }
+            var array = quiz.leaderBoard;
+            array.sort(function(a, b){return b.score-a.score});
+            res.render('quiz/table', {quiz: quiz, leaderboard: array, index: index});
+        }
+    });
+});
+
 // To delete questions from quiz.
 router.post('/:id/delete/:idx', isLoggedIn, function(req, res) {
     Quiz.findOne({uniqueID: req.params.id}, function(err, quiz) {
