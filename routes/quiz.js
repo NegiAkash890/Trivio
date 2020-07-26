@@ -162,7 +162,7 @@ router.get('/attempt/:id/:idx', isLoggedIn, function(req, res) {
                     req.user.save();  
                     quiz.leaderBoard.push({name: req.user.firstName, score: 0});
                     quiz.save();
-                    res.render('quiz/quizlayout', {question: quiz.questions[0], current: 0, total: quiz.questions.length, id: quiz.uniqueID});
+                    res.render('quiz/quizlayout', {question: quiz.questions[options[0].ques], current: 0, total: quiz.questions.length, id: quiz.uniqueID});
                 } else {
                     res.redirect('/quiz/'+req.params.id);
                 }
@@ -179,7 +179,7 @@ router.get('/attempt/:id/:idx', isLoggedIn, function(req, res) {
                 req.user.save();
                 quiz.leaderBoard.push({name: req.user.firstName, score: 0});
                 quiz.save();
-                res.render('quiz/quizlayout', {question: quiz.questions[0], current: 0, total: quiz.questions.length, id: quiz.uniqueID});
+                res.render('quiz/quizlayout', {question: quiz.questions[options[0].ques], current: 0, total: quiz.questions.length, id: quiz.uniqueID});
             } else {
                 function checkidx(obj) {
                     return obj.id == req.params.id;
