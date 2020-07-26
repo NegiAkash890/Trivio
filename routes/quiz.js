@@ -79,7 +79,6 @@ router.get('/addQuestion/:id', isLoggedIn, function(req, res) {
 //  To add questions to a newly created quiz to DB - POST req.
 var cpUpload = upload.fields([{ name: 'quesimg', maxCount: 1 }, { name: 'optionimg', maxCount: 4 }])
 router.post('/addQuestion/:id', isLoggedIn, cpUpload, function(req, res) {
-    console.log(req.body);
     Quiz.findOne({uniqueID: req.params.id}, function(err, quiz) {
         if(err || !quiz) {
             res.redirect('/');
@@ -199,7 +198,6 @@ router.post('/attempt/:id/:idx', isLoggedIn, function(req, res) {
     Quiz.findOne({uniqueID: req.params.id}, function(err, quiz) {
         var idx = parseInt(req.params.idx);
         if(err || !quiz) {
-            console.log(req.params.id);
             res.redirect('/quiz');
         } else if(idx>quiz.questions.length) {
             res.redirect('/quiz/score'+req.params.id);

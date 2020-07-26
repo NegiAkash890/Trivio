@@ -53,7 +53,7 @@
                         <span name="scores_marks"><%= response.score %></span>
                         /
                         <span name='total_marks'><%= quiz.totalPoints %></span>
-                        ) - <%= (response.score/quiz.totalPoints)*100 %> %
+                        ) - <%= (((response.score/quiz.totalPoints)*100)+"").substr(0, 5) %> %
                     </h2>
                     <br>
                     <a href="/quiz/Leaderboard/<%= quiz.uniqueID %>"><strong style="color: brown">Check Leaderboard<span class="ml-3 fa fa-id-card"></span></strong></a>

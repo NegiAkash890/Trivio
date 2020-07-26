@@ -28,7 +28,7 @@
                     <a class="nav-link" href="/">Home <i class="d-md-block ml-2 fa fa-home"></i></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="">My Quiz <i
+                    <a class="nav-link" href="/dashboard">My Quiz <i
                             class="d-md-block ml-2 fa fa-motorcycle"></i></a>
                 </li>
                 <li class="nav-item">
@@ -100,22 +100,18 @@
                                         <!--Card Description to be fetched from the Quiz info-->
                                         <%= quiz.description %>
                                     </div>
+                                    <% if(quiz.isPwdProtected) { %>
+                                        <strong>Password :</strong><span> <%= quiz.password %></span>    
+                                    <% } %>
+                                    <br>
                                     <strong>Author :</strong><span> <%= currentUser.firstName %></span>  
                                         
                                     <p class="text-right mt-4 lead">
-                                        <!--Author to be fetched from Quiz Info-->
-                                        <div class='shareable'>
-                                            <button class="btn btn-primary" id="share_button">
-                                                Share
+                                        <div class=''><a href="/quiz/<%= quiz.uniqueID %>">
+                                            <button class="btn btn-primary" id="">
+                                                Save Quiz
                                                 <i class="ml-2 fa fa-share"></i>
-                                            </button>
-                                            <div class="mt-4 card pl-3 pt-3" id="share_creds">
-                                                <p>Link :<a href="localhost:8080/quiz/<%= quiz.uniqueID %>" id="share_link">Quiz</a></p>
-                                                <div class="sharethis-inline-share-buttons"></div>
-                                                <% if(quiz.isPwdProtected) { %>
-                                                    <p>Password :<span class="pass"><%= quiz.password %></span></p>
-                                                <% } %>
-                                            </div>
+                                            </button></a>
                                         </div>  
                                     </p>
                                 </div>
@@ -140,7 +136,7 @@
                                                             <li>
                                                                 <%= option.text %>
                                                                 <% if(option.image) { %>
-                                                                    <img src="/images/<%= option.image %>" class='img' width="70px" height="50px">
+                                                                    <img src="/images/<%= option.image %>" class='img' height="400" width="600">
                                                                 <% } %>
                                                                 
                                                                 <% if(ques.answer.includes(index+1)) { %>

@@ -36,6 +36,9 @@
                 <span class="badge badge-pill badge-secondary"><%= question.points %> pts</span>
             </div>
             <div class="card-body">
+                <% if(question.image) { %>
+                    <img href="/images/<%= option.image %>" height="80px" width="100px"/>
+                <% } %>
                 <form id="question_form" method="POST" action="/quiz/attempt/<%= id %>/<%= current+1 %>">
                     <!--Options should also use EJS-->
                     <% question.options.forEach(function(option, index) { %>
