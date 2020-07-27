@@ -27,8 +27,7 @@
                     <a class="nav-link" href="/">Home <i class="d-md-block ml-2 fa fa-home"></i></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/dashboard">My Quiz <i
-                            class="d-md-block ml-2 fa fa-motorcycle"></i></a>
+                    <a class="nav-link" href="/dashboard">My Quiz <i class="d-md-block ml-2 fa fa-motorcycle"></i></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">FAQ<i class="d-md-block ml-2 fa fa-sticky-note"></i></a>
@@ -44,86 +43,91 @@
     </nav>
     <div class="container" style="min-height: 500px;">
         <div class="row">
-            <div class="d-none d-xl-flex col-xl-2">
+            <div class="border-right d-none d-xl-flex col-xl-2">
                 Adverstisement
             </div>
             <div class="col-xl-8">
                 <div class="alert alert-success text-center">
-                    <h2>Score - ( 
+                    <h2>Score - (
                         <span name="scores_marks"><%= response.score %></span>
                         /
                         <span name='total_marks'><%= quiz.totalPoints %></span>
                         ) - <%= (((response.score/quiz.totalPoints)*100)+"").substr(0, 5) %> %
                     </h2>
                     <br>
-                    <a href="/quiz/Leaderboard/<%= quiz.uniqueID %>"><strong style="color: brown">Check Leaderboard<span class="ml-3 fa fa-id-card"></span></strong></a>
+                    <a href="/quiz/Leaderboard/<%= quiz.uniqueID %>"><strong style="color: brown">Check Leaderboard<span
+                                class="ml-3 fa fa-id-card"></span></strong></a>
                 </div>
-                <div class="card">
+                <div class="cards">
                     <% if(quiz.questions.length > 0) { %>
-                        <% response.options.forEach(function(userOption, index) { %>
-                            <div class="card">
-                                <div class="card-header d-flex justify-content-between align-items-center">
-                                    <h3 name="render-question"><%= quiz.questions[userOption.ques].question %></h3>
-                                    <p class="badge badge-pill badge-primary" name='render_points'><%= userOption.score %>/<%= quiz.questions[userOption.ques].points %> pts</p>
-                                </div>
-                                <% if(quiz.questions[userOption.ques].image) { %>
-                                    <img src="/images/<%= quiz.questions[userOption.ques].image %>" style="margin: 0 auto;" class='img' width="250px" height="200px">
-                                <% } %>
-                                <div class="card-body">
-                                    <% quiz.questions[userOption.ques].options.forEach(function(option, idx) { %>
-                                        <% if(userOption.option.includes(idx+1) && quiz.questions[userOption.ques].answer.includes(idx+1) ) { %>
-                                            <div class="mb-2 card p-2 bg-secondary text-light">
-                                        <% } else if(userOption.option.includes(idx+1) && !quiz.questions[userOption.ques].answer.includes(idx+1)) { %>
-                                            <div class="mb-2 card p-2 bg-danger text-light">
-                                        <% } else { %>
-                                            <div class="mb-2 card p-2">
+                    <% response.options.forEach(function(userOption, index) { %>
+                    <div class="card mt-3">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h3 name="render-question"><%= quiz.questions[userOption.ques].question %></h3>
+                            <p class="badge badge-pill badge-primary" name='render_points'>
+                                <%= userOption.score %>/<%= quiz.questions[userOption.ques].points %> pts</p>
+                        </div>
+                        <% if(quiz.questions[userOption.ques].image) { %>
+                        <img src="/images/<%= quiz.questions[userOption.ques].image %>" style="margin: 0 auto;"
+                            class='img' width="250px" height="200px">
+                        <% } %>
+                        <div class="card-body">
+                            <% quiz.questions[userOption.ques].options.forEach(function(option, idx) { %>
+                            <% if(userOption.option.includes(idx+1) && quiz.questions[userOption.ques].answer.includes(idx+1) ) { %>
+                            <div class="mb-2 card p-2 bg-secondary text-light">
+                                <% } else if(userOption.option.includes(idx+1) && !quiz.questions[userOption.ques].answer.includes(idx+1)) { %>
+                                <div class="mb-2 card p-2 bg-danger text-light">
+                                    <% } else { %>
+                                    <div class="mb-2 card p-2">
                                         <% } %>
-                                            <p class="mt-1 ml-2 d-flex justify-content-between align-items-center">
-                                                <span>
+                                        <p class="mt-1 ml-2 d-flex justify-content-between align-items-center">
+                                            <span>
                                                 <%= option.text %>
                                                 <% if(option.image) { %>
-                                                    <img src="/images/<%= option.image %>" class='img' width="70px" height="50px">
+                                                <img src="/images/<%= option.image %>" class='img' width="70px"
+                                                    height="50px">
                                                 <% } %>
-                                                </span>
-                                                <% if(quiz.questions[userOption.ques].answer.includes(idx+1)) { %>
-                                                    <span class="ml-4 fa fa-2x fa-check-circle"></span>
-                                                <% } else if(userOption.option.includes(idx+1) && !quiz.questions[userOption.ques].answer.includes(idx+1)) { %>
-                                                    <span class="ml-4 fa fa-2x fa-times-circle"></span>
-                                                <% } %>
-                                            </p>   
-                                        </div>
+                                            </span>
+                                            <% if(quiz.questions[userOption.ques].answer.includes(idx+1)) { %>
+                                            <span class="ml-4 fa fa-2x fa-check-circle"></span>
+                                            <% } else if(userOption.option.includes(idx+1) && !quiz.questions[userOption.ques].answer.includes(idx+1)) { %>
+                                            <span class="ml-4 fa fa-2x fa-times-circle"></span>
+                                            <% } %>
+                                        </p>
+                                    </div>
                                     <% }) %>
-    
+
                                 </div>
                             </div>
-                        <div class="card-footer">
-                            <p class="mt-2 text-muted">Editorial - <span id="description"><%= quiz.questions[userOption.ques].editorial %></span></p>
+                            <div class="card-footer">
+                                <p class="mb-2 p-3 text-muted">Editorial - <span
+                                        id="description"><%= quiz.questions[userOption.ques].editorial %></span></p>
+                            </div>
+                            <!---->
+                            <% }) %>
+                            <% } %>
                         </div>
-                        <!---->
-                        <% }) %>
-                    <% } %>
+                    </div>
+                    <div class="border-left d-none d-xl-flex col-xl-2">
+                        Adverstisement
+                    </div>
                 </div>
             </div>
-            <div class="d-none d-xl-flex col-xl-2">
-                Adverstisement
-            </div>
-        </div>
-    </div>
-    <footer class='container-fluid col-12' id="footer">
-        <ul id="footer-links">
-            <li><a href='#'>About Us</a></li>
-            <li><a href='#'>Privacy Policy</a></li>
-            <li><a href='#'>Contact Us</a></li>
-            <li><a href='#'>FAQ</a></li>
-            <li><a href='#'>WeCBR Toolkit</a></li>
-        </ul>
-        <ul class="mr-3 mt-4">
-            <li><a href="#"><i class="fa fa-2x fa-facebook-square "></i></a></li>
-            <li><a href="#"><i class="fa fa-2x  fa-linkedin"></i></a></li>
-            <li><a href="#"><i class="fa fa-2x  fa-instagram"></i></a></li>
-            <li><a href="#"><i class="fa fa-2x  fa-envelope"></i></a></li>
-        </ul>
-    </footer>
+            <footer class='container-fluid col-12' id="footer">
+                <ul id="footer-links">
+                    <li><a href='#'>About Us</a></li>
+                    <li><a href='#'>Privacy Policy</a></li>
+                    <li><a href='#'>Contact Us</a></li>
+                    <li><a href='#'>FAQ</a></li>
+                    <li><a href='#'>WeCBR Toolkit</a></li>
+                </ul>
+                <ul class="mr-3 mt-4">
+                    <li><a href="#"><i class="fa fa-2x fa-facebook-square "></i></a></li>
+                    <li><a href="#"><i class="fa fa-2x  fa-linkedin"></i></a></li>
+                    <li><a href="#"><i class="fa fa-2x  fa-instagram"></i></a></li>
+                    <li><a href="#"><i class="fa fa-2x  fa-envelope"></i></a></li>
+                </ul>
+            </footer>
 </body>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
     integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
