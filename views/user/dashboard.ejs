@@ -27,8 +27,7 @@
                     <a class="nav-link" href="/">Home <i class="d-md-block ml-2 fa fa-home"></i></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/quiz">My Quiz <i
-                            class="d-md-block ml-2 fa fa-motorcycle"></i></a>
+                    <a class="nav-link" href="/quiz">My Quiz <i class="d-md-block ml-2 fa fa-motorcycle"></i></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">FAQ<i class="d-md-block ml-2 fa fa-sticky-note"></i></a>
@@ -43,84 +42,87 @@
         </div>
     </nav>
     <div class="container" style="min-height: 500px;">
-        
+
         <!--Note Use EJS wherever necessary-->
         <div class="cards">
-            <div class="">
+            <div>
                 <h3>Created Quizzes</h3>
-             </div>
+            </div>
+            <hr>
             <div class="row">
-                
+
                 <% if(user.quizCreated.length > 0) { %>
-                    <% user.quizCreated.forEach(function(quiz) { %>
-                        <div class="col-12 col-sm-6 col-md-4 mb-3">
-                            <div class="card">
-                                <div class="card-header">
-                                    <div class="card-img-top d-flex justify-content-center align-items-center">
-                                        <% if(quiz.image != "") { %>
-                                            <img src="/images/<%= quiz.image %>" class='img' width="100px" height="150px">
-                                        <% } else { %>
-                                        <!--If no picture is provided use this as defalut-->
-                                        <img src="./images/gallery.png" class='img' width="100px" height="150px">
-                                        <% } %>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="card-title">
-                                        <!--Card Title to be fetched from the Quiz info-->
-                                        <%= quiz.topic %>
-                                        <!--Quiz code to be fetched from the Quiz info-->
-                                        <span class="quiz-code badge badge-pill badge-danger ml-3"><%= quiz.uniqueID %></span>
-                                    </div>
-                                    <div class="card-description">
-                                        <strong>Description - </strong>
-                                        <!--Card Description to be fetched from the Quiz info-->
-                                        <%= quiz.description %>
-                                    </div>
-                                </div>
-                                <div class="card-footer">
-                                    <a href="/quiz/addQuestion/<%= quiz.uniqueID %>"><button class='btn btn-primary'>Add Questions</button></a>
-                                </div>
+                <% user.quizCreated.forEach(function(quiz) { %>
+                <div class="col-12 col-sm-6 col-md-4 mb-3">
+                    <div class="card" style="min-height: 450px;">
+                        <div class="card-header">
+                            <div class="card-img-top d-flex justify-content-center align-items-center">
+                                <% if(quiz.image != "") { %>
+                                <img src="/images/<%= quiz.image %>" class='img' width="100px" height="150px">
+                                <% } else { %>
+                                <!--If no picture is provided use this as defalut-->
+                                <img src="./images/gallery.png" class='img' width="100px" height="150px">
+                                <% } %>
                             </div>
                         </div>
-                    <% }) %>
+                        <div class="card-body">
+                            <div class="card-title">
+                                <!--Card Title to be fetched from the Quiz info-->
+                                <%= quiz.topic %>
+                                <!--Quiz code to be fetched from the Quiz info-->
+                                <span class="quiz-code badge badge-pill badge-danger ml-3"><%= quiz.uniqueID %></span>
+                            </div>
+                            <div class="card-description">
+                                <strong>Description - </strong>
+                                <!--Card Description to be fetched from the Quiz info-->
+                                <%= quiz.description %>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="/quiz/addQuestion/<%= quiz.uniqueID %>"><button class='btn btn-primary'>Add
+                                    Questions</button></a>
+                        </div>
+                    </div>
+                </div>
+                <% }) %>
                 <% } else { %>
-                    <div>Nothing found !</div>
+                <div>Nothing found !</div>
                 <% } %>
             </div>
-            <div class="">
+            <div class="mt-4">
                 <h3>Played Quizzes</h3>
-             </div>
+            </div>
+            <hr>
             <div class="row">
                 <% if(user.quizAttempted.length > 0) { %>
-                    <% user.quizAttempted.forEach(function(quiz) { %>
-                        <div class="col-12 col-sm-6 col-md-4 mb-3">
-                            <div class="card">
-                                <div class="card-header">
-                                   <div class="card-title">
-                                       <!--Card Title to be fetched from the Quiz info-->
-                                       <%= quiz.topic %>
-                                       <!--Quiz code to be fetched from the Quiz info-->
-                                       <span class="quiz-code badge badge-pill badge-danger ml-3"><%= quiz.id %></span>
-                                   </div>
-                                </div>
-                                <div class="card-body">
-                                   <div class="card-description">
-                                       <strong>Score - </strong>
-                                       <!--Card Description to be fetched from the Quiz info-->
-                                       <%= quiz.score %>
-                                   </div>
-                               </div>
-                                <div class="card-footer">
-                                    <a href="/quiz/score/<%= quiz.id %>"><button class='btn btn-primary'>ScoreCard</button></a>
-                                </div>
+                <% user.quizAttempted.forEach(function(quiz) { %>
+                <div class="col-12 col-sm-6 col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <!--Card Title to be fetched from the Quiz info-->
+                                <%= quiz.topic %>
+                                <!--Quiz code to be fetched from the Quiz info-->
+                                <span class="quiz-code badge badge-pill badge-danger ml-3"><%= quiz.id %></span>
                             </div>
                         </div>
-                    <% }) %>
-                <% } else { %>
-                    <div>Nothing found !</div>
-                <% } %>
+                        <div class="card-body">
+                            <div class="card-description">
+                                <strong>Your Score - </strong>
+                                <!--Card Description to be fetched from the Quiz info-->
+                                <%= quiz.score %>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="/quiz/score/<%= quiz.id %>"><button class='btn btn-primary'>Score Card</button></a>
+                        </div>
+                    </div>
                 </div>
+                <% }) %>
+                <% } else { %>
+                <div>Nothing found !</div>
+                <% } %>
+            </div>
         </div>
     </div>
 
