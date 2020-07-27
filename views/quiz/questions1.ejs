@@ -9,8 +9,10 @@
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="/css/style.css">  
-    <script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5f1c7d852e6e3400115049e9&product=inline-share-buttons" async="async"></script>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <script type="text/javascript"
+        src="https://platform-api.sharethis.com/js/sharethis.js#property=5f1c7d852e6e3400115049e9&product=inline-share-buttons"
+        async="async"></script>
 </head>
 
 <body>
@@ -28,8 +30,7 @@
                     <a class="nav-link" href="/">Home <i class="d-md-block ml-2 fa fa-home"></i></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/dashboard">My Quiz <i
-                            class="d-md-block ml-2 fa fa-motorcycle"></i></a>
+                    <a class="nav-link" href="/dashboard">My Quiz <i class="d-md-block ml-2 fa fa-motorcycle"></i></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">FAQ<i class="d-md-block ml-2 fa fa-sticky-note"></i></a>
@@ -43,7 +44,7 @@
             </ul>
         </div>
     </nav>
-    
+
     <div class="container-fluid" id='container'>
         <div class="row">
             <div class="col-xl-3 text-center d-none d-md-none d-xl-flex" id='ad1'>
@@ -63,12 +64,12 @@
                     -->
                     <!-- Render Question Here using EJS-->
                     <div class="col-12 mt-4">
-                        <div class="alert alert-dismissible card p-0">
+                        <div class="alert alert-dismissible p-0">
                             <div class="card">
                                 <div class="card-header">
                                     <div class="card-img-top d-flex justify-content-center align-items-center">
                                         <% if(quiz.image) { %>
-                                            <img src="/images/<%= quiz.image %>" class='img' width="100px" height="150px">
+                                        <img src="/images/<%= quiz.image %>" class='img' width="100px" height="150px">
                                         <% } else { %>
                                         <!--If no picture is provided use this as defalut-->
                                         <img src="/images/gallery.png" class='img' width="100px" height="150px">
@@ -78,86 +79,103 @@
                                 <div class="card-body">
                                     <div class="card-title">
                                         <div class="">
-                                            <!--Card Title to be fetched from the Quiz info-->
-                                            <strong>Topic</strong> - <%= quiz.topic %>
-                                            <!--Quiz code to be fetched from the Quiz info-->
-                                            <br>
-                                            <strong>Code - </strong><span class="quiz-code badge badge-pill badge-danger ml-3"><%= quiz.uniqueID %></span>
+                                            <p>
+                                                <!--Card Title to be fetched from the Quiz info-->
+                                                <strong>Topic</strong> - <%= quiz.topic %>
+                                                <!--Quiz code to be fetched from the Quiz info-->
+                                                <br>
+                                                <strong>Code -</strong><span
+                                                    class="quiz-code badge badge-pill badge-danger ml-1"><%= quiz.uniqueID %></span>
+                                            </p>
                                         </div>
                                         <div>
-                                            <strong>Total Points - </strong><%= quiz.totalPoints %>
-                                            <br>
-                                            <strong>Duration - </strong><%= parseInt(quiz.totalDuration/60) + " minutes, " + quiz.totalDuration%60 + " seconds" %>
+                                            <p>
+                                                <strong>Total Points - </strong><%= quiz.totalPoints %>
+                                                <br>
+                                                <strong>Duration -
+                                                </strong><%= parseInt(quiz.totalDuration/60) + " minutes, " + quiz.totalDuration%60 + " seconds" %>
+                                            </p>
                                         </div>
                                         <div>
-                                            <strong>Quiz Start Date - </strong><%= quiz.date.toLocaleString() %>
-                                            <br>
-                                            <strong>Quiz End Date - </strong><%= quiz.endDate.toLocaleString() %>
+                                            <p>
+                                                <strong>Quiz Start Date - </strong><%= quiz.date.toLocaleString() %>
+                                                <br>
+                                                <strong>Quiz End Date - </strong><%= quiz.endDate.toLocaleString() %>
+                                            </p>
                                         </div>
                                     </div>
                                     <div class="card-description">
-                                        <strong>Description - </strong>
-                                        <!--Card Description to be fetched from the Quiz info-->
-                                        <%= quiz.description %>
+                                        <p>
+                                            <strong>Description - </strong>
+                                            <!--Card Description to be fetched from the Quiz info-->
+                                            <%= quiz.description %>
+                                        </p>
                                     </div>
                                     <% if(quiz.isPwdProtected) { %>
-                                        <strong>Password :</strong><span> <%= quiz.password %></span>    
-                                    <% } %>
-                                    <br>
-                                    <strong>Author :</strong><span> <%= currentUser.firstName %></span>  
-                                        
+                                    <p>
+                                        <strong>Password :</strong><span> <%= quiz.password %></span>
+                                        <% } %>
+                                        <br>
+                                        <strong>Author :</strong><span> <%= currentUser.firstName %></span>
+                                    </p>
                                     <p class="text-right mt-4 lead">
-                                        <div class=''><a href="/quiz/<%= quiz.uniqueID %>">
+                                    <div class=''><a href="/quiz/<%= quiz.uniqueID %>">
                                             <button class="btn btn-primary" id="">
                                                 Save Quiz
                                                 <i class="ml-2 fa fa-share"></i>
                                             </button></a>
-                                        </div>  
+                                    </div>
                                     </p>
                                 </div>
                             </div>
-                            
+
                             <% if(quiz.questions.length != 0) { %>
-                                <% quiz.questions.forEach(function(ques, index){ %>
-                                    <div class="col-12 mt-4">
-                                        <div class="alert alert-dismissible card p-0">
-                                            <div class="card-header d-flex justify-content-evenly align-items-center">
-                                                <h3 class="mt-4"><%= ques.question %></h3>     
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="card-img-top d-flex justify-content-center align-items-center">
-                                                    <% if(ques.image) { %>
-                                                        <img src="/images/<%= ques.image %>" class='img' width="250px" height="200px">
-                                                    <% } %>
-                                                </div>
-                                                <div class="col-12 mt-4">
-                                                    <ul>
-                                                        <% ques.options.forEach(function(option, index) { %>
-                                                            <li>
-                                                                <%= option.text %>
-                                                                <% if(option.image) { %>
-                                                                    <img src="/images/<%= option.image %>" class='img' height="400" width="600">
-                                                                <% } %>
-                                                                
-                                                                <% if(ques.answer.includes(index+1)) { %>
-                                                                    <i class="fa fa-check-circle" aria-hidden="true"></i>
-                                                                <% } %> 
-                                                            </li>
-                                                        <% }) %>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="card-footer">
+                            <% quiz.questions.forEach(function(ques, index){ %>
+                            <div class="col-12 mt-4">
+                                <div class="alert alert-dismissible card p-0">
+                                    <div class="card-header d-flex justify-content-evenly align-items-center">
+                                        <h3 class="mt-4"><%= ques.question %></h3>
+                                    </div>
+                                    <div class="card-body pr-4">
+                                        <div class="card-img-top d-flex justify-content-center align-items-center">
+                                            <% if(ques.image) { %>
+                                            <img src="/images/<%= ques.image %>" class='img-fluid'>
+                                            <% } %>
+                                        </div>
+                                        <p class="mt-4 text-muted ml-3 pt-1">Choices</p>
+                                        <hr>
+                                        <div class="col-12">
+                                            <ul>
+
+                                                <% ques.options.forEach(function(option, index) { %>
                                                 <li>
-                                                    <p class="ml-4 text-muted">Editorial : <%= ques.editorial %></p>
+                                                    <%= option.text %>
+                                                    <% if(option.image) { %>
+                                                    <img src="/images/<%= option.image %>" class='img' height="400"
+                                                        width="600">
+                                                    <% } %>
+                                                    <span>
+                                                        <% if(ques.answer.includes(index+1)) { %>
+                                                        <i class="fa fa-check-circle text-success"
+                                                            aria-hidden="true"></i>
+                                                        <% } %>
+                                                    </span>
                                                 </li>
-                                                <form action="/quiz/<%= quiz.uniqueID %>/delete/<%= index %>" method="POST">
-                                                    <button type="submit" style="float: right;color:white;background-color: red;border: none;padding: 8px;">Delete</button>
-                                                </form>
-                                            </div>
+                                                <% }) %>
+                                            </ul>
                                         </div>
                                     </div>
-                                <% })  %>
+                                    <div class="card-footer">
+                                        <li>
+                                            <p class=" text-muted">Editorial : <%= ques.editorial %></p>
+                                        </li>
+                                        <form action="/quiz/<%= quiz.uniqueID %>/delete/<%= index %>" method="POST">
+                                            <button type="submit" class="mr-4  mt-2 btn btn-danger">Delete</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <% })  %>
                             <% } %>
                         </div>
                     </div>
@@ -173,7 +191,9 @@
                                     </div>
                                     <div class="card-body">
                                         <!--Form Action-->
-                                        <form action='/quiz/addQuestion/<%= quiz.uniqueID %>' enctype="multipart/form-data" method="POST" class="needs-validation" novalidate>
+                                        <form action='/quiz/addQuestion/<%= quiz.uniqueID %>'
+                                            enctype="multipart/form-data" method="POST" class="needs-validation"
+                                            novalidate>
                                             <div class="row">
                                                 <div class="col-12 col-md-4">
                                                     <div class="form-group">
@@ -227,7 +247,7 @@
                                                                 <input type="file" class='form-control form-control-lg'
                                                                     id="ip2" name="optionimg">
                                                                 <p class='ml-2 mr-4 mt-0 mt-sm-4 mt-md-0 text-muted'
-                                                                    id="ip2_value" value='' >No
+                                                                    id="ip2_value" value=''>No
                                                                     File Selected
                                                                 </p>
                                                                 <span class="mt-3 fa fa-camera-retro fa-2x"
@@ -271,12 +291,14 @@
                                                         <div class="col-12 col-sm-6">
                                                             <label for="answer_limit">Time limit for answering<span
                                                                     class="text-muted">(sec)</span>
-                                                            <input class="form-control" type="number" min="10" max="120" value=10 name="duration">
+                                                                <input class="form-control" type="number" min="10"
+                                                                    max="120" value=10 name="duration">
                                                         </div>
                                                         <div class="col-12 col-sm-6">
                                                             <label for="custom_point">Points<span class="text-muted">
-                                                            <input class="form-control" type="number" min="0 max="20" step="5" value=10 name="points">
-
+                                                                    <input class="form-control" type="number"
+                                                                        min="0 max=" 20" step="5" value=10
+                                                                        name="points">
                                                         </div>
                                                     </div>
                                                     <div class="row mt-md-2">
@@ -289,7 +311,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
                                             </div>
                                             <div class="row mt-3 p-2">
                                                 <!--Add the form action-->
@@ -326,7 +347,6 @@
         </ul>
     </footer>
 </body>
-
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
     integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
     crossorigin="anonymous"></script>
