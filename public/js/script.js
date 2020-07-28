@@ -67,17 +67,56 @@ var choice_value_4 = document.getElementById('ip4_value');
 
 const documentname = document.title;
 if (document.title == 'QUIZ DASHBOARD') {
+    var start_time = document.getElementById('start_time')
+    var end_time = document.getElementById('endtime')
+    var input_date = document.getElementById('date')
+    var end_date = document.getElementById('end-date')
+    input_date.addEventListener('change', () => {
+        if (input_date.value < new Date().toISOString().split('T')[0]) {
+            alert("Date should be Greater/Equal to today's Date.")
+            input_date.value = ''
+        }
+        if (input_date.value > end_date.value) {
+            if (end_date.value) {
+                alert("End date should be greater than/equal to Start Date")
+                end_date.value = input_date.value
+            }
+        }
+    })
+    end_date.addEventListener('change', () => {
+        if (end_date.value < input_date.value) {
+            alert('End Date should be Greater/Equal to the present Date')
+            end_date.value = ''
+        }
+    })
 
+    start_time.addEventListener('change', () => {
+        if (input_date.value == end_date.value) {
+            if (start_time.value < new Date().toTimeString()) {
+                alert("Start Time should be Greater than Current Time")
+                start_time.value = new Date().toTimeString()
+            }
+        }
+    })
+    end_time.addEventListener('change', () => {
+        var start_time = document.getElementById('start_time')
+        if (input_date.value == end_date.value) {
+            if (start_time.value >= end_time.value) {
+                alert("Please check the Starting Time")
+                end_time.value = new Date().toTimeString()
+            }
+        }
+    })
 
 }
 else {
-//     var share_creds = document.getElementById('share_creds')
-//     share_creds.style.display = 'none'
-//     var share_link = document.getElementById('share_link')
-//     var share_button = document.getElementById('share_button')
-//     share_button.addEventListener('click', () => {
-//         share_creds.style.display = 'block'
-//     })
+    //     var share_creds = document.getElementById('share_creds')
+    //     share_creds.style.display = 'none'
+    //     var share_link = document.getElementById('share_link')
+    //     var share_button = document.getElementById('share_button')
+    //     share_button.addEventListener('click', () => {
+    //         share_creds.style.display = 'block'
+    //     })
     var add = document.getElementById('add')
     var Question_Card = document.getElementById('question_card')
     // Question_Card.style.display = 'none'
