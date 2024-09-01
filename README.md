@@ -1,7 +1,6 @@
-# WeCBR
-QUIZ APP 
+# Trivio (A Quiz App)
 
-This App is a Production Level App Build during Summer Internship . 
+This App is a Production Level App built during my Summer Internship. 
 
 ## Technologies Used
 
